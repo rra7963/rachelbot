@@ -2,7 +2,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createMarketIndexService } from '../../src/market-index';
 
-test('market index sync hits real Kalshi API', { timeout: 20000 }, async () => {
+test('market index sync hits real Kalshi API', {
+  skip: process.env.RUN_LIVE_TESTS !== '1',
+  timeout: 20000,
+}, async () => {
   const upserted: unknown[] = [];
   const db = {
     getMarketIndexHash: () => null,
