@@ -1,4 +1,4 @@
-# Clodds Scripts
+# RachelBot Scripts
 
 Build, deployment, and utility scripts.
 
@@ -32,7 +32,7 @@ Build, deployment, and utility scripts.
 
 ```bash
 # Install
-curl -fsSL https://clodds.com/install.sh | bash
+curl -fsSL https://rachelbot.com/install.sh | bash
 
 # Development
 ./scripts/dev.sh

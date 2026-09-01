@@ -613,7 +613,7 @@ Output the expanded document.`;
 
             const docxDoc = new docx.Document({
               title: doc.title,
-              creator: 'Clodds',
+              creator: 'RachelBot',
               numbering: {
                 config: [{
                   reference: 'default-numbering',

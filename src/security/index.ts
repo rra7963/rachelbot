@@ -85,7 +85,7 @@ export class PairingManager {
   private storePath: string;
 
   constructor(storePath?: string) {
-    this.storePath = storePath || join(homedir(), '.clodds', 'paired-users.json');
+    this.storePath = storePath || join(homedir(), '.rachelbot', 'paired-users.json');
     this.loadPairedUsers();
   }
 
@@ -416,7 +416,7 @@ export class SecretStore {
   private _ready: Promise<void>;
 
   constructor(encryptionKey?: string, storePath?: string) {
-    this.storePath = storePath || join(homedir(), '.clodds', 'secrets.enc');
+    this.storePath = storePath || join(homedir(), '.rachelbot', 'secrets.enc');
 
     // initEncryption must complete before load() to decrypt properly
     this._ready = (async () => {
@@ -434,7 +434,7 @@ export class SecretStore {
 
   private async initEncryption(password: string): Promise<void> {
     // Derive key from password
-    const salt = 'clodds-secrets-v1';
+    const salt = 'rachelbot-secrets-v1';
     this.encryptionKey = (await scryptAsync(password, salt, 32)) as Buffer;
   }
 

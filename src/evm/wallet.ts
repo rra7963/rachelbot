@@ -46,7 +46,7 @@ export interface EncryptedKeystore {
 // WALLET DIRECTORY
 // =============================================================================
 
-const WALLET_DIR = join(homedir(), '.clodds', 'wallets');
+const WALLET_DIR = join(homedir(), '.rachelbot', 'wallets');
 
 function ensureWalletDir(): void {
   if (!existsSync(WALLET_DIR)) {

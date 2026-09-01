@@ -58,7 +58,7 @@ Manage open positions with automated stop-loss, take-profit, and trailing stop o
 ### Create Position Manager
 
 ```typescript
-import { createPositionManager } from 'clodds/positions';
+import { createPositionManager } from 'rachelbot/positions';
 
 const positions = createPositionManager({
   // Monitoring

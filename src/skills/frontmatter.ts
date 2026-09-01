@@ -1,6 +1,6 @@
 /**
  * Shared frontmatter parser for SKILL.md files
- * Supports both Clodds-native and OpenClaw-format frontmatter
+ * Supports both RachelBot-native and OpenClaw-format frontmatter
  */
 
 import YAML from 'yaml';
@@ -61,7 +61,7 @@ export interface OpenClawMetadata {
 // PARSER
 // =============================================================================
 
-const MANIFEST_KEYS = ['clodds', 'openclaw', 'clawdbot'] as const;
+const MANIFEST_KEYS = ['rachelbot', 'openclaw', 'clawdbot'] as const;
 
 /**
  * Parse YAML frontmatter from a SKILL.md file.
@@ -103,7 +103,7 @@ export function parseFrontmatter(content: string): { frontmatter: ParsedFrontmat
     frontmatter.metadata = JSON.stringify(parsed.metadata);
   }
 
-  // Gates (Clodds native)
+  // Gates (RachelBot native)
   if (typeof parsed.gates === 'object' && parsed.gates !== null) {
     const g = parsed.gates as Record<string, unknown>;
     frontmatter.gates = {};
@@ -142,7 +142,7 @@ export function parseFrontmatter(content: string): { frontmatter: ParsedFrontmat
 
 /**
  * Extract OpenClaw-format metadata from the frontmatter metadata field.
- * Checks for keys: clodds, openclaw, clawdbot
+ * Checks for keys: rachelbot, openclaw, clawdbot
  */
 export function resolveMetadata(frontmatter: ParsedFrontmatter): OpenClawMetadata | undefined {
   if (!frontmatter.metadata) return undefined;
@@ -204,7 +204,7 @@ export function resolveMetadata(frontmatter: ParsedFrontmatter): OpenClawMetadat
 // =============================================================================
 
 /**
- * Merge Clodds-native gates with OpenClaw requires into a unified SkillGates.
+ * Merge RachelBot-native gates with OpenClaw requires into a unified SkillGates.
  */
 export function mergeGates(gates?: SkillGates, ocRequires?: OpenClawMetadata['requires']): SkillGates {
   const merged: SkillGates = {};
@@ -217,7 +217,7 @@ export function mergeGates(gates?: SkillGates, ocRequires?: OpenClawMetadata['re
   const anyBins = [...(gates?.anyBins || []), ...(ocRequires?.anyBins || [])];
   if (anyBins.length > 0) merged.anyBins = [...new Set(anyBins)];
 
-  // Envs: Clodds uses 'envs', OpenClaw uses 'env'
+  // Envs: RachelBot uses 'envs', OpenClaw uses 'env'
   const envs = [...(gates?.envs || []), ...(ocRequires?.env || [])];
   if (envs.length > 0) merged.envs = [...new Set(envs)];
 

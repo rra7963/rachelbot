@@ -92,7 +92,7 @@ export interface NWSFeed extends EventEmitter {
 // =============================================================================
 
 const BASE_URL = 'https://api.weather.gov';
-const USER_AGENT = 'CloddsBot/1.0 (weather-feed; contact@clodds.com)';
+const USER_AGENT = 'RachelBot/1.0 (weather-feed; contact@rachelbot.com)';
 
 async function nwsFetch<T>(url: string): Promise<T> {
   const res = await fetch(url, {

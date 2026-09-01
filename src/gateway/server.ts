@@ -234,7 +234,7 @@ export function createServer(
   let chatConnectionHandler: ((ws: WebSocket, req: IncomingMessage) => void) | null = null;
 
   // Auth middleware for sensitive endpoints
-  const authToken = process.env.CLODDS_TOKEN;
+  const authToken = process.env.RACHELBOT_TOKEN;
   const requireAuth = (req: Request, res: express.Response, next: express.NextFunction) => {
     if (!authToken) {
       // No token configured - allow access (for development)
@@ -290,7 +290,7 @@ export function createServer(
 
   // IP-based rate limiting
   const ipRequestCounts = new Map<string, { count: number; resetAt: number }>();
-  const IP_RATE_LIMIT = parseInt(process.env.CLODDS_IP_RATE_LIMIT || '100', 10); // requests per minute
+  const IP_RATE_LIMIT = parseInt(process.env.RACHELBOT_IP_RATE_LIMIT || '100', 10); // requests per minute
   const IP_RATE_WINDOW_MS = 60 * 1000; // 1 minute
 
   app.use((req, res, next) => {
@@ -338,7 +338,7 @@ export function createServer(
   // HTTPS enforcement & security headers
   app.use((req, res, next) => {
     // HSTS header (only send over HTTPS or if explicitly enabled)
-    const hstsEnabled = process.env.CLODDS_HSTS_ENABLED === 'true';
+    const hstsEnabled = process.env.RACHELBOT_HSTS_ENABLED === 'true';
     const isSecure = req.secure || req.headers['x-forwarded-proto'] === 'https';
 
     if (hstsEnabled || isSecure) {
@@ -352,13 +352,13 @@ export function createServer(
     res.setHeader('X-XSS-Protection', '1; mode=block');
 
     // Redirect HTTP to HTTPS if forced
-    const forceHttps = process.env.CLODDS_FORCE_HTTPS === 'true';
+    const forceHttps = process.env.RACHELBOT_FORCE_HTTPS === 'true';
     if (forceHttps && !isSecure) {
       const allowedHosts = new Set([
-        process.env.CLODDS_PUBLIC_HOST || 'localhost',
+        process.env.RACHELBOT_PUBLIC_HOST || 'localhost',
         'localhost',
         '127.0.0.1',
-        'compute.cloddsbot.com',
+        'compute.rachelbot.com',
       ].filter(Boolean));
       const host = req.headers.host?.split(':')[0] || 'localhost';
       if (!allowedHosts.has(host)) {
@@ -433,7 +433,7 @@ export function createServer(
     }
   });
 
-  // Metrics endpoint (for monitoring) - requires auth if CLODDS_TOKEN is set
+  // Metrics endpoint (for monitoring) - requires auth if RACHELBOT_TOKEN is set
   app.get('/metrics', requireAuth, (_req, res) => {
     const requestMetrics = getRequestMetrics();
     const errorStats = getErrorStats();
@@ -466,7 +466,7 @@ export function createServer(
   // API info endpoint
   app.get('/', (_req, res) => {
     res.json({
-      name: 'clodds',
+      name: 'rachelbot',
       version: process.env.npm_package_version || '0.1.0',
       description: 'AI assistant for prediction markets',
       endpoints: {
@@ -501,7 +501,7 @@ export function createServer(
       category: 'Core',
       vars: [
         { key: 'ANTHROPIC_API_KEY', label: 'Anthropic API Key', secret: true, required: true, helpUrl: 'https://console.anthropic.com' },
-        { key: 'CLODDS_LOCALE', label: 'Language (en, es, zh, ja, ko...)', secret: false, required: false },
+        { key: 'RACHELBOT_LOCALE', label: 'Language (en, es, zh, ja, ko...)', secret: false, required: false },
       ],
     },
     {
@@ -602,13 +602,13 @@ export function createServer(
     {
       category: 'Gateway & Security',
       vars: [
-        { key: 'CLODDS_TOKEN', label: 'Gateway Auth Token', secret: true, required: false },
-        { key: 'CLODDS_CREDENTIAL_KEY', label: 'Credential Encryption Key', secret: true, required: false },
-        { key: 'CLODDS_PUBLIC_HOST', label: 'Public Hostname', secret: false, required: false },
-        { key: 'CLODDS_PUBLIC_SCHEME', label: 'Public Scheme (http/https)', secret: false, required: false },
+        { key: 'RACHELBOT_TOKEN', label: 'Gateway Auth Token', secret: true, required: false },
+        { key: 'RACHELBOT_CREDENTIAL_KEY', label: 'Credential Encryption Key', secret: true, required: false },
+        { key: 'RACHELBOT_PUBLIC_HOST', label: 'Public Hostname', secret: false, required: false },
+        { key: 'RACHELBOT_PUBLIC_SCHEME', label: 'Public Scheme (http/https)', secret: false, required: false },
         { key: 'LOG_LEVEL', label: 'Log Level (debug/info/warn/error)', secret: false, required: false },
-        { key: 'CLODDS_IP_RATE_LIMIT', label: 'IP Rate Limit (req/min)', secret: false, required: false },
-        { key: 'CLODDS_FORCE_HTTPS', label: 'Force HTTPS', secret: false, required: false },
+        { key: 'RACHELBOT_IP_RATE_LIMIT', label: 'IP Rate Limit (req/min)', secret: false, required: false },
+        { key: 'RACHELBOT_FORCE_HTTPS', label: 'Force HTTPS', secret: false, required: false },
       ],
     },
   ];
@@ -856,7 +856,7 @@ export function createServer(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clodds</title>
+  <title>RachelBot</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1322,9 +1322,9 @@ export function createServer(
 </head>
 <body>
   <div class="header">
-    <img class="header-logo" src="https://cloddsbot.com/logo.png" alt="Clodds" onerror="this.textContent=''" />
+    <img class="header-logo" src="/webchat/logo.png" alt="RachelBot" onerror="this.textContent=''" />
     <div class="header-info">
-      <div class="header-title">Clodds</div>
+      <div class="header-title">RachelBot</div>
       <div class="header-subtitle">AI Trading Terminal</div>
     </div>
     <div class="status-dot" id="status-dot" title="Connecting..."></div>
@@ -1332,7 +1332,7 @@ export function createServer(
 
   <div id="messages">
     <div class="welcome" id="welcome">
-      <img class="welcome-logo" src="https://cloddsbot.com/logo.png" alt="" onerror="this.style.display='none'" />
+      <img class="welcome-logo" src="/webchat/logo.png" alt="" onerror="this.style.display='none'" />
       <h2>What can I help you with?</h2>
       <p>I can trade prediction markets, analyze odds, track positions, and more.</p>
       <div class="welcome-chips">
@@ -2120,7 +2120,7 @@ export function createServer(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Clodds</title>
+  <title>RachelBot</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -2211,7 +2211,7 @@ export function createServer(
 </head>
 <body>
   <div class="header">
-    <h1>Clodds</h1>
+    <h1>RachelBot</h1>
     <p>Prediction Markets AI</p>
   </div>
 
@@ -2370,7 +2370,7 @@ export function createServer(
     res.send(`<!DOCTYPE html>
 <html>
 <head>
-  <title>Clodds Performance Dashboard</title>
+  <title>RachelBot Performance Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }

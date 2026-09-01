@@ -75,7 +75,7 @@ export async function createCopilotProxyExtension(
         headers: {
           Authorization: `token ${config.githubToken}`,
           Accept: 'application/json',
-          'User-Agent': 'Clodds/1.0',
+          'User-Agent': 'RachelBot/1.0',
         },
       });
 
@@ -144,7 +144,7 @@ export async function createCopilotProxyExtension(
       const headers = new Headers(options?.headers);
       headers.set('Authorization', `Bearer ${token.token}`);
       headers.set('Content-Type', 'application/json');
-      headers.set('User-Agent', 'Clodds/1.0');
+      headers.set('User-Agent', 'RachelBot/1.0');
 
       return fetch(url, {
         ...options,

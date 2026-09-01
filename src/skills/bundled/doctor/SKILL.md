@@ -47,7 +47,7 @@ Run system diagnostics, check health status, and troubleshoot issues.
 ### Create Doctor Service
 
 ```typescript
-import { createDoctorService } from 'clodds/doctor';
+import { createDoctorService } from 'rachelbot/doctor';
 
 const doctor = createDoctorService({
   // Checks to run
@@ -216,16 +216,16 @@ console.log(formatted);
 
 ```bash
 # Run all diagnostics
-clodds doctor
+rachelbot doctor
 
 # Quick check
-clodds doctor --quick
+rachelbot doctor --quick
 
 # Check specific component
-clodds doctor --check system
+rachelbot doctor --check system
 
 # JSON output
-clodds doctor --json
+rachelbot doctor --json
 ```
 
 ---

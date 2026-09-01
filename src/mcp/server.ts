@@ -1,5 +1,5 @@
 /**
- * MCP Server Mode - Expose all Clodds skills as MCP tools via stdio
+ * MCP Server Mode - Expose all RachelBot skills as MCP tools via stdio
  *
  * Reads JSON-RPC from stdin, writes to stdout, logs to stderr.
  * Protocol version: 2024-11-05
@@ -66,8 +66,8 @@ async function ensureSkills(): Promise<void> {
 async function listTools(): Promise<McpTool[]> {
   await ensureSkills();
   return skillManifest!.map((name) => ({
-    name: `clodds_${name.replace(/-/g, '_')}`,
-    description: `Clodds skill: ${name}`,
+    name: `rachelbot_${name.replace(/-/g, '_')}`,
+    description: `RachelBot skill: ${name}`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -80,8 +80,8 @@ async function listTools(): Promise<McpTool[]> {
 async function callTool(toolName: string, args: Record<string, unknown>): Promise<{ content: Array<{ type: string; text: string }>; isError?: boolean }> {
   await ensureSkills();
 
-  // clodds_trading_polymarket → trading-polymarket
-  const skillName = toolName.replace(/^clodds_/, '').replace(/_/g, '-');
+  // rachelbot_trading_polymarket → trading-polymarket
+  const skillName = toolName.replace(/^rachelbot_/, '').replace(/_/g, '-');
   const skillArgs = typeof args.args === 'string' ? args.args : '';
 
   // Build command string like "/trading-polymarket balance"
@@ -118,7 +118,7 @@ async function handleRequest(req: JsonRpcRequest): Promise<JsonRpcResponse | nul
       const result: McpInitializeResult = {
         protocolVersion: '2024-11-05',
         capabilities: { tools: {} },
-        serverInfo: { name: 'clodds', version: '0.1.0' },
+        serverInfo: { name: 'rachelbot', version: '0.1.0' },
       };
       return { jsonrpc: '2.0', id: req.id, result };
     }
@@ -162,7 +162,7 @@ async function handleRequest(req: JsonRpcRequest): Promise<JsonRpcResponse | nul
         return errorResponse(req.id, -32602, injectionMsg);
       }
 
-      const TOOL_TIMEOUT_MS = Number(process.env.CLODDS_MCP_TOOL_TIMEOUT_MS || 30000);
+      const TOOL_TIMEOUT_MS = Number(process.env.RACHELBOT_MCP_TOOL_TIMEOUT_MS || 30000);
       let toolResult: Awaited<ReturnType<typeof callTool>>;
       try {
         toolResult = await Promise.race([
@@ -231,5 +231,5 @@ export async function startMcpServer(): Promise<void> {
   });
 
   // Signal readiness via stderr
-  process.stderr.write('Clodds MCP server started (stdio)\n');
+  process.stderr.write('RachelBot MCP server started (stdio)\n');
 }

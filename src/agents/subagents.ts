@@ -244,7 +244,7 @@ export function classifyError(error: Error): { category: ErrorCategory; retryabl
 // SESSION PERSISTENCE
 // =============================================================================
 
-const PERSISTENCE_DIR = join(homedir(), '.clodds', 'subagents');
+const PERSISTENCE_DIR = join(homedir(), '.rachelbot', 'subagents');
 
 /**
  * Ensure persistence directory exists

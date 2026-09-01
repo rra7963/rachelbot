@@ -1,6 +1,6 @@
 # Authentication Guide
 
-Clodds supports multiple authentication methods for AI providers and external services.
+RachelBot supports multiple authentication methods for AI providers and external services.
 
 ## OAuth Authentication
 
@@ -19,7 +19,7 @@ The OAuth module (`src/auth/oauth.ts`) provides a unified interface for OAuth 2.
 ### Usage
 
 ```typescript
-import { OAuthClient, interactiveOAuth, createAnthropicOAuth } from 'clodds/auth';
+import { OAuthClient, interactiveOAuth, createAnthropicOAuth } from 'rachelbot/auth';
 
 // Create provider-specific client
 const client = createAnthropicOAuth('client-id', 'client-secret');
@@ -40,7 +40,7 @@ await client.revokeTokens();
 
 ### Token Storage
 
-Tokens are stored securely at `~/.clodds/tokens/<provider>.json` with `0600` permissions.
+Tokens are stored securely at `~/.rachelbot/tokens/<provider>.json` with `0600` permissions.
 
 ## GitHub Copilot Authentication
 
@@ -49,7 +49,7 @@ The Copilot module (`src/auth/copilot.ts`) handles GitHub Copilot API access.
 ### Setup
 
 ```typescript
-import { CopilotAuthClient, interactiveCopilotAuth } from 'clodds/auth';
+import { CopilotAuthClient, interactiveCopilotAuth } from 'rachelbot/auth';
 
 // Interactive device code flow
 const tokens = await interactiveCopilotAuth();
@@ -64,7 +64,7 @@ await client.pollDeviceCode(deviceCode, interval);
 ### Using Copilot API
 
 ```typescript
-import { CopilotCompletionClient, CopilotAuthClient } from 'clodds/auth';
+import { CopilotCompletionClient, CopilotAuthClient } from 'rachelbot/auth';
 
 const auth = new CopilotAuthClient();
 const copilot = new CopilotCompletionClient(auth);
@@ -85,7 +85,7 @@ The Google module (`src/auth/google.ts`) supports multiple authentication method
 ### API Key (Simplest)
 
 ```typescript
-import { GeminiApiKeyManager, GeminiClient } from 'clodds/auth';
+import { GeminiApiKeyManager, GeminiClient } from 'rachelbot/auth';
 
 // Set API key
 const keyManager = new GeminiApiKeyManager();
@@ -101,7 +101,7 @@ const response = await gemini.generateContent('gemini-pro', 'Hello!');
 ### OAuth (User Authentication)
 
 ```typescript
-import { GoogleAuthClient, interactiveGoogleAuth } from 'clodds/auth';
+import { GoogleAuthClient, interactiveGoogleAuth } from 'rachelbot/auth';
 
 // Interactive device code flow
 const tokens = await interactiveGoogleAuth();
@@ -115,7 +115,7 @@ await client.pollDeviceCode(deviceCode, interval);
 ### Service Account (Server-to-Server)
 
 ```typescript
-import { GoogleAuthClient } from 'clodds/auth';
+import { GoogleAuthClient } from 'rachelbot/auth';
 
 const client = new GoogleAuthClient({
   serviceAccountPath: '/path/to/service-account.json',
@@ -132,7 +132,7 @@ The Qwen module (`src/auth/qwen.ts`) handles Alibaba Cloud AI services.
 ### API Key
 
 ```typescript
-import { QwenAuthClient, QwenClient } from 'clodds/auth';
+import { QwenAuthClient, QwenClient } from 'rachelbot/auth';
 
 // Set API key
 const auth = new QwenAuthClient({ apiKey: 'your-key' });
@@ -145,7 +145,7 @@ const response = await qwen.generate('qwen-turbo', 'Hello!');
 ### Alibaba Cloud Credentials
 
 ```typescript
-import { QwenAuthClient } from 'clodds/auth';
+import { QwenAuthClient } from 'rachelbot/auth';
 
 const auth = new QwenAuthClient({
   accessKeyId: 'your-access-key',
@@ -161,7 +161,7 @@ const signedParams = auth.signAliyunRequest('GET', url, params);
 ```typescript
 const { accessKeyId, accessKeySecret, securityToken } = await auth.getSTSToken(
   'acs:ram::123456:role/MyRole',
-  'clodds-session'
+  'rachelbot-session'
 );
 ```
 
@@ -169,19 +169,19 @@ const { accessKeyId, accessKeySecret, securityToken } = await auth.getSTSToken(
 
 ```bash
 # OAuth login
-clodds auth login anthropic
-clodds auth login openai
-clodds auth login google
+rachelbot auth login anthropic
+rachelbot auth login openai
+rachelbot auth login google
 
 # Copilot login
-clodds auth copilot
+rachelbot auth copilot
 
 # Check authentication status
-clodds auth status
+rachelbot auth status
 
 # Revoke all tokens
-clodds auth logout
-clodds auth logout anthropic
+rachelbot auth logout
+rachelbot auth logout anthropic
 ```
 
 ## Environment Variables

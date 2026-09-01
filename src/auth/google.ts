@@ -55,7 +55,7 @@ export class GoogleAuthClient {
   constructor(config: GoogleAuthConfig = {}) {
     this.config = config;
     this.tokenStorePath = config.tokenStorePath ||
-      path.join(process.env.HOME || '', '.clodds', 'tokens', 'google.json');
+      path.join(process.env.HOME || '', '.rachelbot', 'tokens', 'google.json');
 
     if (config.serviceAccountPath) {
       this.loadServiceAccount();
@@ -442,7 +442,7 @@ export class GeminiApiKeyManager {
 
   constructor(keyStorePath?: string) {
     this.keyStorePath = keyStorePath ||
-      path.join(process.env.HOME || '', '.clodds', 'keys', 'gemini.txt');
+      path.join(process.env.HOME || '', '.rachelbot', 'keys', 'gemini.txt');
     this.loadKey();
   }
 

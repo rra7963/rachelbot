@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Clodds CLI - Command-line interface for Clodds
+ * RachelBot CLI - Command-line interface for RachelBot
  *
  * Commands:
- * - clodds start - Start the gateway
- * - clodds pairing list <channel> - List pending pairing requests
- * - clodds pairing approve <channel> <code> - Approve a pairing request
- * - clodds pairing reject <channel> <code> - Reject a pairing request
- * - clodds pairing users <channel> - List paired users
+ * - rachelbot start - Start the gateway
+ * - rachelbot pairing list <channel> - List pending pairing requests
+ * - rachelbot pairing approve <channel> <code> - Approve a pairing request
+ * - rachelbot pairing reject <channel> <code> - Reject a pairing request
+ * - rachelbot pairing users <channel> - List paired users
  */
 
 // Silence pino during onboard/setup so log spam doesn't pollute the wizard.
@@ -19,8 +19,8 @@ if (process.argv.includes('onboard') || process.argv.includes('setup')) {
 import { config as dotenvConfig } from 'dotenv';
 import { homedir } from 'os';
 import { join } from 'path';
-// Load .env from ~/.clodds/.env first (where onboard writes), then CWD fallback
-dotenvConfig({ path: join(homedir(), '.clodds', '.env') });
+// Load .env from ~/.rachelbot/.env first (where onboard writes), then CWD fallback
+dotenvConfig({ path: join(homedir(), '.rachelbot', '.env') });
 dotenvConfig();
 import { Command } from 'commander';
 import { createDatabase } from '../db/index';
@@ -48,22 +48,22 @@ process.on('uncaughtException', (error) => {
 });
 
 program
-  .name('clodds')
-  .description('Claude + Odds: AI assistant for prediction markets')
+  .name('rachelbot')
+  .description('RachelBot: AI workspace for market research and automation')
   .version('0.1.0');
 
 // Start command
 program
   .command('start')
-  .description('Start the Clodds gateway')
+  .description('Start the RachelBot gateway')
   .action(async () => {
-    logger.info('Starting Clodds...');
+    logger.info('Starting RachelBot...');
     const config = await loadConfig();
     configureHttpClient(config.http);
     const gateway = await createGateway(config);
     await gateway.start();
 
-    logger.info('Clodds is running!');
+    logger.info('RachelBot is running!');
 
     const shutdown = async () => {
       logger.info('Shutting down...');
@@ -125,7 +125,7 @@ pairing
       );
     }
 
-    console.log(`\nTo approve: clodds pairing approve ${channel} <CODE>`);
+    console.log(`\nTo approve: rachelbot pairing approve ${channel} <CODE>`);
     db.close();
   });
 
@@ -141,10 +141,10 @@ pairing
 
     if (success) {
       console.log(`\n✅ Approved pairing request: ${code.toUpperCase()}`);
-      console.log('User can now chat with Clodds via DM.');
+      console.log('User can now chat with RachelBot via DM.');
     } else {
       console.log(`\n❌ Failed to approve: Code not found or expired`);
-      console.log(`Run "clodds pairing list ${channel}" to see pending requests.`);
+      console.log(`Run "rachelbot pairing list ${channel}" to see pending requests.`);
     }
 
     db.close();
@@ -241,7 +241,7 @@ pairing
 
     if (owners.length === 0) {
       console.log(`No owners for ${channel}`);
-      console.log(`\nUse 'clodds pairing set-owner ${channel} <userId>' to add an owner.`);
+      console.log(`\nUse 'rachelbot pairing set-owner ${channel} <userId>' to add an owner.`);
       return;
     }
 
@@ -287,8 +287,8 @@ pairing
 program
   .command('endpoints')
   .description('Show webhook endpoints for channels')
-  .option('--host <host>', 'Public host for webhooks', process.env.CLODDS_PUBLIC_HOST || 'localhost')
-  .option('--scheme <scheme>', 'URL scheme (http or https)', process.env.CLODDS_PUBLIC_SCHEME || 'http')
+  .option('--host <host>', 'Public host for webhooks', process.env.RACHELBOT_PUBLIC_HOST || 'localhost')
+  .option('--scheme <scheme>', 'URL scheme (http or https)', process.env.RACHELBOT_PUBLIC_SCHEME || 'http')
   .option('--port <port>', 'Override gateway port')
   .action(async (options: { host: string; scheme: string; port?: string }) => {
     const config = await loadConfig();
@@ -315,13 +315,13 @@ program
 // Status command
 program
   .command('status')
-  .description('Show Clodds status')
+  .description('Show RachelBot status')
   .action(async () => {
     const db = createDatabase();
     createMigrationRunner(db).migrate();
     const pairingService = createPairingService(db);
 
-    console.log('\nClodds Status\n');
+    console.log('\nRachelBot Status\n');
 
     // Count paired users per channel
     const channels = ['telegram', 'discord', 'webchat', 'matrix', 'signal', 'imessage', 'line', 'googlechat'];
@@ -332,8 +332,8 @@ program
     }
 
     const config = await loadConfig();
-    const scheme = process.env.CLODDS_PUBLIC_SCHEME || 'http';
-    const host = process.env.CLODDS_PUBLIC_HOST || 'localhost';
+    const scheme = process.env.RACHELBOT_PUBLIC_SCHEME || 'http';
+    const host = process.env.RACHELBOT_PUBLIC_HOST || 'localhost';
     const portSuffix = config.gateway?.port && ![80, 443].includes(config.gateway.port)
       ? `:${config.gateway.port}`
       : '';

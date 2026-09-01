@@ -8,7 +8,7 @@
  * /features signals <platform> <marketId> Get trading signals
  */
 
-const GATEWAY_URL = process.env.CLODDS_GATEWAY_URL || 'http://localhost:3000';
+const GATEWAY_URL = process.env.RACHELBOT_GATEWAY_URL || 'http://localhost:3000';
 
 interface TickFeatures {
   timestamp: number;

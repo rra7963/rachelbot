@@ -12,8 +12,8 @@ import { createLogger } from './logger';
 
 const logger = createLogger('config');
 
-// Load .env file — check ~/.clodds/.env first (onboard writes here), then CWD
-dotenvConfig({ path: join(homedir(), '.clodds', '.env') });
+// Load .env file — check ~/.rachelbot/.env first (onboard writes here), then CWD
+dotenvConfig({ path: join(homedir(), '.rachelbot', '.env') });
 dotenvConfig(); // CWD fallback (won't override existing vars)
 
 function resolveUserPath(input: string): string {
@@ -26,21 +26,21 @@ function resolveUserPath(input: string): string {
 }
 
 export function resolveStateDir(env = process.env): string {
-  const override = env.CLODDS_STATE_DIR?.trim();
+  const override = env.RACHELBOT_STATE_DIR?.trim();
   if (override) return resolveUserPath(override);
-  return join(homedir(), '.clodds');
+  return join(homedir(), '.rachelbot');
 }
 
 export function resolveConfigPath(env = process.env): string {
-  const override = env.CLODDS_CONFIG_PATH?.trim();
+  const override = env.RACHELBOT_CONFIG_PATH?.trim();
   if (override) return resolveUserPath(override);
-  return join(resolveStateDir(env), 'clodds.json');
+  return join(resolveStateDir(env), 'rachelbot.json');
 }
 
 export function resolveWorkspaceDir(env = process.env): string {
-  const override = env.CLODDS_WORKSPACE?.trim();
+  const override = env.RACHELBOT_WORKSPACE?.trim();
   if (override) return resolveUserPath(override);
-  return join(homedir(), 'clodds');
+  return join(homedir(), 'rachelbot');
 }
 
 const CONFIG_DIR = resolveStateDir();
@@ -286,7 +286,7 @@ const DEFAULT_CONFIG: Config = {
     alertTargets: [],
     email: {
       enabled: false,
-      subjectPrefix: 'Clodds',
+      subjectPrefix: 'RachelBot',
     },
     providerHealth: {
       enabled: true,
@@ -451,9 +451,9 @@ export async function loadConfig(customPath?: string): Promise<Config> {
   }
 
   // Apply group policies from env JSON
-  if (process.env.CLODDS_GROUP_POLICIES) {
+  if (process.env.RACHELBOT_GROUP_POLICIES) {
     try {
-      const parsed = JSON.parse(process.env.CLODDS_GROUP_POLICIES) as Record<string, unknown>;
+      const parsed = JSON.parse(process.env.RACHELBOT_GROUP_POLICIES) as Record<string, unknown>;
       if (!config.channels) config.channels = {};
       for (const [channel, value] of Object.entries(parsed)) {
         if (!value || typeof value !== 'object') continue;
@@ -462,7 +462,7 @@ export async function loadConfig(customPath?: string): Promise<Config> {
         (config.channels as Record<string, any>)[channel] = channelConfig;
       }
     } catch (error) {
-      logger.warn({ error }, 'Failed to parse CLODDS_GROUP_POLICIES');
+      logger.warn({ error }, 'Failed to parse RACHELBOT_GROUP_POLICIES');
     }
   }
 

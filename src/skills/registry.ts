@@ -111,7 +111,7 @@ const DEFAULT_CACHE_TTL = 60 * 60 * 1000; // 1 hour
 
 export function createSkillsRegistry(config: RegistryConfig): SkillsRegistry {
   const registryUrl = config.registryUrl || DEFAULT_REGISTRY_URL;
-  const skillsDir = config.skillsDir || path.join(process.env.HOME || '', '.clodds', 'skills');
+  const skillsDir = config.skillsDir || path.join(process.env.HOME || '', '.rachelbot', 'skills');
   const cacheTtl = config.cacheTtl || DEFAULT_CACHE_TTL;
 
   // Ensure skills directory exists
@@ -161,7 +161,7 @@ export function createSkillsRegistry(config: RegistryConfig): SkillsRegistry {
     const response = await fetch(`${registryUrl}${endpoint}`, {
       headers: {
         'Accept': 'application/json',
-        'User-Agent': 'Clodds/1.0',
+        'User-Agent': 'RachelBot/1.0',
       },
     });
 

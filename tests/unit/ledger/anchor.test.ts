@@ -24,7 +24,7 @@ const mockSolanaConnection = {
           {
             parsed: {
               info: {
-                message: `clodds:ledger:${sig.includes('match') ? 'expected-hash' : 'wrong-hash'}`,
+                message: `rachelbot:ledger:${sig.includes('match') ? 'expected-hash' : 'wrong-hash'}`,
               },
             },
           },
@@ -219,19 +219,19 @@ describe('Batch anchoring', () => {
 describe('Hash format for anchoring', () => {
   it('should format Solana memo correctly', () => {
     const hash = 'abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234';
-    const expectedMemo = `clodds:ledger:${hash}`;
+    const expectedMemo = `rachelbot:ledger:${hash}`;
 
-    assert.ok(expectedMemo.startsWith('clodds:ledger:'));
+    assert.ok(expectedMemo.startsWith('rachelbot:ledger:'));
     assert.ok(expectedMemo.includes(hash));
   });
 
   it('should format EVM calldata correctly', () => {
     const hash = 'ef567890ef567890ef567890ef567890ef567890ef567890ef567890ef567890';
-    const memoData = `clodds:ledger:${hash}`;
+    const memoData = `rachelbot:ledger:${hash}`;
 
     // In actual code, this would be: ethers.hexlify(ethers.toUtf8Bytes(memoData))
     // For test, just verify the format
-    assert.ok(memoData.startsWith('clodds:ledger:'));
+    assert.ok(memoData.startsWith('rachelbot:ledger:'));
     assert.strictEqual(memoData.length, 78); // 14 + 64
   });
 });
@@ -318,7 +318,7 @@ describe('Solana Memo Program', () => {
 
   it('should format memo data as UTF-8', () => {
     const hash = 'test-hash-123';
-    const memoData = `clodds:ledger:${hash}`;
+    const memoData = `rachelbot:ledger:${hash}`;
     const buffer = Buffer.from(memoData, 'utf-8');
 
     assert.ok(buffer.length > 0);
@@ -335,7 +335,7 @@ describe('EVM Transaction Format', () => {
     const txParams = {
       to: '0x1234567890abcdef1234567890abcdef12345678',
       value: 0,
-      data: '0x636c6f6464733a6c65646765723a74657374', // hex encoded "clodds:ledger:test"
+      data: '0x636c6f6464733a6c65646765723a74657374', // hex encoded "rachelbot:ledger:test"
     };
 
     assert.strictEqual(txParams.value, 0);

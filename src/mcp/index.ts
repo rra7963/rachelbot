@@ -20,7 +20,7 @@ import { logger } from '../utils/logger';
 
 const MCP_RESOURCE_CHUNK_BYTES = Math.max(
   1024,
-  Number(process.env.CLODDS_MCP_RESOURCE_CHUNK_BYTES || 64 * 1024)
+  Number(process.env.RACHELBOT_MCP_RESOURCE_CHUNK_BYTES || 64 * 1024)
 );
 
 // =============================================================================
@@ -287,7 +287,7 @@ class StdioMcpClient implements McpClient {
   private buffer = '';
   private events = new EventEmitter();
   private reconnectAttempts = 0;
-  private defaultTimeoutMs = Number(process.env.CLODDS_MCP_REQUEST_TIMEOUT_MS || 15000);
+  private defaultTimeoutMs = Number(process.env.RACHELBOT_MCP_REQUEST_TIMEOUT_MS || 15000);
 
   serverInfo?: McpServerInfo;
   connected = false;
@@ -481,7 +481,7 @@ class StdioMcpClient implements McpClient {
     }>('initialize', {
       protocolVersion: '2024-11-05',
       clientInfo: {
-        name: 'clodds',
+        name: 'rachelbot',
         version: '0.1.0',
       },
       capabilities: {},
@@ -572,7 +572,7 @@ class SseMcpClient implements McpClient {
   private buffer = '';
   private abortController: AbortController | null = null;
   private reconnectAttempts = 0;
-  private defaultTimeoutMs = Number(process.env.CLODDS_MCP_REQUEST_TIMEOUT_MS || 15000);
+  private defaultTimeoutMs = Number(process.env.RACHELBOT_MCP_REQUEST_TIMEOUT_MS || 15000);
 
   serverInfo?: McpServerInfo;
   connected = false;
@@ -777,7 +777,7 @@ class SseMcpClient implements McpClient {
     }>('initialize', {
       protocolVersion: '2024-11-05',
       clientInfo: {
-        name: 'clodds',
+        name: 'rachelbot',
         version: '0.1.0',
       },
       capabilities: {},
@@ -869,7 +869,7 @@ export function createMcpRegistry(): McpRegistry {
   const servers: Map<string, McpServerConfig> = new Map();
   const clients: Map<string, McpClient> = new Map();
   const promptCache = new Map<string, { content: McpContent[]; expiresAt: number }>();
-  const promptTtlMs = Number(process.env.CLODDS_MCP_PROMPT_CACHE_TTL_MS || 5 * 60 * 1000);
+  const promptTtlMs = Number(process.env.RACHELBOT_MCP_PROMPT_CACHE_TTL_MS || 5 * 60 * 1000);
   const PROMPT_CACHE_MAX_SIZE = 500;
 
   // Evict expired entries (called periodically)
@@ -1291,7 +1291,7 @@ export function loadMcpConfig(configPath?: string): McpConfigFile {
     : [
         join(process.cwd(), '.mcp.json'),
         join(process.cwd(), 'mcp.json'),
-        join(homedir(), '.config', 'clodds', 'mcp.json'),
+        join(homedir(), '.config', 'rachelbot', 'mcp.json'),
         join(homedir(), '.claude', 'mcp.json'),
       ];
 
@@ -1344,9 +1344,9 @@ export function initializeFromConfig(registry: McpRegistry, config: McpConfigFil
 // =============================================================================
 
 /**
- * Convert MCP tool to Clodds tool format
+ * Convert MCP tool to RachelBot tool format
  */
-export function mcpToolToClodds(mcpTool: McpTool & { server: string }): {
+export function mcpToolToRachelBot(mcpTool: McpTool & { server: string }): {
   name: string;
   description: string;
   parameters: JsonSchema;
@@ -1394,5 +1394,5 @@ export const mcp = {
   initializeFromConfig,
   validateSchema,
   importSkills: importSkillsFromDirectory,
-  toolToClodds: mcpToolToClodds,
+  toolToRachelBot: mcpToolToRachelBot,
 };

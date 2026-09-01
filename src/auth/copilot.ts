@@ -39,7 +39,7 @@ export class CopilotAuthClient {
   constructor(config: CopilotConfig = {}) {
     this.config = config;
     this.tokenStorePath = config.tokenStorePath ||
-      path.join(process.env.HOME || '', '.clodds', 'tokens', 'copilot.json');
+      path.join(process.env.HOME || '', '.rachelbot', 'tokens', 'copilot.json');
     this.loadTokens();
   }
 
@@ -191,8 +191,8 @@ export class CopilotAuthClient {
       headers: {
         Authorization: `token ${this.tokens.githubToken}`,
         Accept: 'application/json',
-        'Editor-Version': 'Clodds/1.0.0',
-        'Editor-Plugin-Version': 'clodds/1.0.0',
+        'Editor-Version': 'RachelBot/1.0.0',
+        'Editor-Plugin-Version': 'rachelbot/1.0.0',
       },
     });
 
@@ -231,8 +231,8 @@ export class CopilotAuthClient {
       headers: {
         Authorization: `token ${this.tokens.githubToken}`,
         Accept: 'application/json',
-        'Editor-Version': 'Clodds/1.0.0',
-        'Editor-Plugin-Version': 'clodds/1.0.0',
+        'Editor-Version': 'RachelBot/1.0.0',
+        'Editor-Plugin-Version': 'rachelbot/1.0.0',
       },
     });
 
@@ -259,9 +259,9 @@ export class CopilotAuthClient {
     return {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
-      'Editor-Version': 'Clodds/1.0.0',
-      'Editor-Plugin-Version': 'clodds/1.0.0',
-      'Copilot-Integration-Id': 'clodds',
+      'Editor-Version': 'RachelBot/1.0.0',
+      'Editor-Plugin-Version': 'rachelbot/1.0.0',
+      'Copilot-Integration-Id': 'rachelbot',
       'OpenAI-Intent': 'conversation-agent',
     };
   }

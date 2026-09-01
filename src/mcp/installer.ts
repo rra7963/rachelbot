@@ -1,5 +1,5 @@
 /**
- * MCP Installer - Auto-configure Claude Desktop and Claude Code to use Clodds MCP
+ * MCP Installer - Auto-configure Claude Desktop and Claude Code to use RachelBot MCP
  */
 
 import { existsSync, readFileSync, writeFileSync, copyFileSync, mkdirSync } from 'fs';
@@ -26,7 +26,7 @@ function getClaudeCodeConfigPath(): string {
   return join(homedir(), '.claude.json');
 }
 
-function getCloddsEntrypoint(): string {
+function getRachelBotEntrypoint(): string {
   // Resolve to the built CLI entrypoint
   return resolve(join(__dirname, '..', 'cli', 'index.js'));
 }
@@ -58,7 +58,7 @@ function backupAndWrite(path: string, data: Record<string, any>): void {
 function getMcpServerEntry(): Record<string, any> {
   return {
     command: 'node',
-    args: [getCloddsEntrypoint(), 'mcp'],
+    args: [getRachelBotEntrypoint(), 'mcp'],
   };
 }
 
@@ -76,7 +76,7 @@ export function installMcpServer(): { installed: string[]; skipped: string[] } {
   try {
     const config = readJsonFile(desktopPath);
     if (!config.mcpServers) config.mcpServers = {};
-    config.mcpServers.clodds = entry;
+    config.mcpServers.rachelbot = entry;
     backupAndWrite(desktopPath, config);
     installed.push(`Claude Desktop: ${desktopPath}`);
   } catch (err: any) {
@@ -88,7 +88,7 @@ export function installMcpServer(): { installed: string[]; skipped: string[] } {
   try {
     const config = readJsonFile(codePath);
     if (!config.mcpServers) config.mcpServers = {};
-    config.mcpServers.clodds = entry;
+    config.mcpServers.rachelbot = entry;
     backupAndWrite(codePath, config);
     installed.push(`Claude Code: ${codePath}`);
   } catch (err: any) {
@@ -117,12 +117,12 @@ export function uninstallMcpServer(): { removed: string[]; skipped: string[] } {
         continue;
       }
       const config = readJsonFile(path);
-      if (config.mcpServers?.clodds) {
-        delete config.mcpServers.clodds;
+      if (config.mcpServers?.rachelbot) {
+        delete config.mcpServers.rachelbot;
         backupAndWrite(path, config);
         removed.push(`${name}: ${path}`);
       } else {
-        skipped.push(`${name}: clodds not configured`);
+        skipped.push(`${name}: rachelbot not configured`);
       }
     } catch (err: any) {
       skipped.push(`${name}: ${err.message}`);

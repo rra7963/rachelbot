@@ -46,10 +46,10 @@ const DEFAULT_STEPS: WizardStep[] = [
   {
     id: 'welcome',
     title: 'Welcome',
-    description: 'Welcome to Clodds setup',
+    description: 'Welcome to RachelBot setup',
     async run(ctx) {
-      logger.info('Welcome to Clodds - Your AI Prediction Markets Assistant');
-      logger.info('This wizard will help you set up Clodds.');
+      logger.info('Welcome to RachelBot - Your AI Prediction Markets Assistant');
+      logger.info('This wizard will help you set up RachelBot.');
     },
   },
   {
@@ -117,7 +117,7 @@ const DEFAULT_STEPS: WizardStep[] = [
     async run(ctx) {
       logger.info('Saving configuration...');
 
-      const configDir = join(homedir(), '.clodds');
+      const configDir = join(homedir(), '.rachelbot');
       if (!existsSync(configDir)) {
         mkdirSync(configDir, { recursive: true });
       }
@@ -130,7 +130,7 @@ const DEFAULT_STEPS: WizardStep[] = [
       writeFileSync(envPath, envContent);
 
       logger.info('Configuration saved to .env');
-      logger.info('Setup complete! Run `npm start` to launch Clodds.');
+      logger.info('Setup complete! Run `npm start` to launch RachelBot.');
     },
   },
 ];

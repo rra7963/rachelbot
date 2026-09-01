@@ -1,7 +1,7 @@
 /**
  * Presets — Save/load named strategy configurations
  *
- * Persisted to ~/.clodds/crypto-hft-presets.json
+ * Persisted to ~/.rachelbot/crypto-hft-presets.json
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
@@ -10,7 +10,7 @@ import { homedir } from 'os';
 import { logger } from '../../utils/logger.js';
 import type { CryptoHftConfig, StrategyPreset } from './types.js';
 
-const PRESETS_DIR = join(homedir(), '.clodds');
+const PRESETS_DIR = join(homedir(), '.rachelbot');
 const PRESETS_FILE = join(PRESETS_DIR, 'crypto-hft-presets.json');
 
 function ensureDir() {

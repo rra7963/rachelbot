@@ -1,10 +1,10 @@
 {
-  "name": "clodds",
+  "name": "rachelbot",
   "version": "1.8.0",
-  "description": "Open-source AI trading terminal. Trade Polymarket, Kalshi, Betfair, Binance, Bybit, Hyperliquid, Solana DEXs from Telegram, Discord, Slack or web. Arbitrage detection, whale tracking, copy trading, perpetual futures up to 200x, DeFi swaps, MEV protection. Self-hosted, 119 skills, powered by Claude.",
+  "description": "RachelBot is a self-hosted AI workspace for market research, trading automation, risk controls, and multi-channel assistance.",
   "main": "dist/index.js",
   "bin": {
-    "clodds": "./dist/cli/index.js"
+    "rachelbot": "./dist/cli/index.js"
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -47,10 +47,10 @@
     "solend",
     "kamino"
   ],
-  "author": "alsk1992",
-  "homepage": "https://cloddsbot.com",
+  "author": "rra7963",
+  "homepage": "https://github.com/rra7963/rachelbot",
   "bugs": {
-    "url": "https://github.com/alsk1992/CloddsBot/issues"
+    "url": "https://github.com/rra7963/rachelbot/issues"
   },
   "engines": {
     "node": ">=22.0.0"
@@ -58,7 +58,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alsk1992/CloddsBot"
+    "url": "git+https://github.com/rra7963/rachelbot.git"
   },
   "files": [
     "dist",

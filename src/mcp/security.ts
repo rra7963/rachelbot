@@ -28,23 +28,23 @@ export interface McpSecurityConfig {
 /** Tool profiles — predefined sets of allowed tool prefixes */
 const TOOL_PROFILES: Record<string, string[]> = {
   'read-only': [
-    'clodds_feeds', 'clodds_markets', 'clodds_analytics',
-    'clodds_portfolio', 'clodds_watchlist', 'clodds_search',
+    'rachelbot_feeds', 'rachelbot_markets', 'rachelbot_analytics',
+    'rachelbot_portfolio', 'rachelbot_watchlist', 'rachelbot_search',
   ],
   'trading': [
-    'clodds_feeds', 'clodds_markets', 'clodds_analytics',
-    'clodds_portfolio', 'clodds_watchlist', 'clodds_search',
-    'clodds_trading', 'clodds_execution', 'clodds_order',
+    'rachelbot_feeds', 'rachelbot_markets', 'rachelbot_analytics',
+    'rachelbot_portfolio', 'rachelbot_watchlist', 'rachelbot_search',
+    'rachelbot_trading', 'rachelbot_execution', 'rachelbot_order',
   ],
   'full': [],
 };
 
 export function loadSecurityConfig(): McpSecurityConfig {
-  const allowed = process.env.CLODDS_MCP_ALLOWED_TOOLS?.trim();
-  const blocked = process.env.CLODDS_MCP_BLOCKED_TOOLS?.trim();
-  const rateLimit = parseInt(process.env.CLODDS_MCP_RATE_LIMIT || '60', 10);
-  const auditEnabled = process.env.CLODDS_MCP_AUDIT !== 'false';
-  const toolProfile = process.env.CLODDS_MCP_TOOL_PROFILE || 'full';
+  const allowed = process.env.RACHELBOT_MCP_ALLOWED_TOOLS?.trim();
+  const blocked = process.env.RACHELBOT_MCP_BLOCKED_TOOLS?.trim();
+  const rateLimit = parseInt(process.env.RACHELBOT_MCP_RATE_LIMIT || '60', 10);
+  const auditEnabled = process.env.RACHELBOT_MCP_AUDIT !== 'false';
+  const toolProfile = process.env.RACHELBOT_MCP_TOOL_PROFILE || 'full';
 
   return {
     allowedTools: allowed ? new Set(allowed.split(',').map((s) => s.trim())) : new Set(),

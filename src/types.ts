@@ -1,6 +1,6 @@
 /**
- * Clodds - Core Type Definitions
- * Claude + Odds: AI assistant for prediction markets
+ * RachelBot - Core Type Definitions
+ * RachelBot: AI workspace for market research and automation
  */
 
 // =============================================================================

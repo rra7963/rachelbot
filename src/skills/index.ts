@@ -85,8 +85,8 @@ export class SkillRegistry extends EventEmitter {
   constructor(skillsDir?: string, registryUrl?: string) {
     super();
     this.setMaxListeners(50);
-    this.skillsDir = skillsDir || join(homedir(), '.clodds', 'skills');
-    this.registryUrl = registryUrl || 'https://registry.clodds.dev';
+    this.skillsDir = skillsDir || join(homedir(), '.rachelbot', 'skills');
+    this.registryUrl = registryUrl || 'https://registry.rachelbot.dev';
     this.ensureDir();
     this.loadSkills();
   }
@@ -207,7 +207,7 @@ export class SkillsManager {
   private loadedSkills: Skill[] = [];
 
   constructor(config: SkillsManagerConfig = {}) {
-    this.skillsDir = config.skillsDir || join(homedir(), '.clodds', 'skills');
+    this.skillsDir = config.skillsDir || join(homedir(), '.rachelbot', 'skills');
   }
 
   /** Load skills from disk */
@@ -279,8 +279,8 @@ export class SkillsRegistryClient {
   private skillsDir: string;
 
   constructor(config: SkillsRegistryConfig = {}) {
-    this.registryUrl = config.registryUrl || 'https://registry.clodds.dev';
-    this.skillsDir = config.skillsDir || join(homedir(), '.clodds', 'skills');
+    this.registryUrl = config.registryUrl || 'https://registry.rachelbot.dev';
+    this.skillsDir = config.skillsDir || join(homedir(), '.rachelbot', 'skills');
   }
 
   /** Search for skills in the registry */
@@ -466,7 +466,7 @@ export class SkillsRegistryClient {
     // Get download info
     const { url, type } = this.deriveDownloadUrl(skill);
     const tempId = randomBytes(8).toString('hex');
-    const tempDir = join(tmpdir(), `clodds-skill-${tempId}`);
+    const tempDir = join(tmpdir(), `rachelbot-skill-${tempId}`);
 
     try {
       logger.info({ slug, url, type }, 'Downloading skill');

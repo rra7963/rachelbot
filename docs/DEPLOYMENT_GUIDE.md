@@ -1,6 +1,6 @@
-# Clodds Deployment Guide
+# RachelBot Deployment Guide
 
-This guide covers production-style deployment for Clodds using Node.js,
+This guide covers production-style deployment for RachelBot using Node.js,
 Docker, or a systemd service.
 
 ## Prerequisites
@@ -20,32 +20,32 @@ Optional:
 
 ## Runtime data locations
 
-Clodds stores persistent data in the state directory (defaults to the user's
-home directory under `~/.clodds`). You can override it with
-`CLODDS_STATE_DIR`.
+RachelBot stores persistent data in the state directory (defaults to the user's
+home directory under `~/.rachelbot`). You can override it with
+`RACHELBOT_STATE_DIR`.
 
-- Database: `~/.clodds/clodds.db` (or `$CLODDS_STATE_DIR/clodds.db`)
-- Backups: `~/.clodds/backups` (or `$CLODDS_STATE_DIR/backups`)
+- Database: `~/.rachelbot/rachelbot.db` (or `$RACHELBOT_STATE_DIR/rachelbot.db`)
+- Backups: `~/.rachelbot/backups` (or `$RACHELBOT_STATE_DIR/backups`)
 
 You can control paths for config and workspace with:
-- `CLODDS_CONFIG_PATH`
-- `CLODDS_WORKSPACE`
+- `RACHELBOT_CONFIG_PATH`
+- `RACHELBOT_WORKSPACE`
 
 ## Deployment options
 
 ### 1) npm install (recommended)
 
 ```bash
-npm install -g clodds
-clodds onboard
+npm install -g rachelbot
+rachelbot onboard
 ```
 
-The `onboard` wizard handles API key setup, channel selection, and config generation. After setup, start anytime with `clodds start`.
+The `onboard` wizard handles API key setup, channel selection, and config generation. After setup, start anytime with `rachelbot start`.
 
 ### 2) Node.js (from source)
 
 ```
-git clone https://github.com/alsk1992/CloddsBot.git && cd CloddsBot
+git clone https://github.com/rra7963/rachelbot.git && cd rachelbot
 npm ci
 npm run build
 node dist/index.js
@@ -62,7 +62,7 @@ node dist/cli/index.js start
 Build the image:
 
 ```
-docker build -t clodds .
+docker build -t rachelbot .
 ```
 
 Run it:
@@ -73,12 +73,12 @@ docker run --rm \
   -e ANTHROPIC_API_KEY=... \
   -e TELEGRAM_BOT_TOKEN=... \
   -e WEBCHAT_TOKEN=... \
-  -v clodds_data:/data \
-  clodds
+  -v rachelbot_data:/data \
+  rachelbot
 ```
 
-Note: the container sets `CLODDS_STATE_DIR=/data`, so the database lives at
-`/data/clodds.db` (backups at `/data/backups`).
+Note: the container sets `RACHELBOT_STATE_DIR=/data`, so the database lives at
+`/data/rachelbot.db` (backups at `/data/backups`).
 
 ### 3) Docker Compose
 
@@ -93,20 +93,20 @@ there, or edit the `environment:` section.
 
 ### 4) systemd (Linux)
 
-Create a unit file (example: `/etc/systemd/system/clodds.service`):
+Create a unit file (example: `/etc/systemd/system/rachelbot.service`):
 
 ```
 [Unit]
-Description=Clodds Gateway
+Description=RachelBot Gateway
 After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/clodds
-EnvironmentFile=/etc/clodds/clodds.env
-ExecStart=/usr/bin/node /opt/clodds/dist/index.js
+WorkingDirectory=/opt/rachelbot
+EnvironmentFile=/etc/rachelbot/rachelbot.env
+ExecStart=/usr/bin/node /opt/rachelbot/dist/index.js
 Restart=on-failure
-User=clodds
+User=rachelbot
 
 [Install]
 WantedBy=multi-user.target
@@ -116,8 +116,8 @@ Then:
 
 ```
 systemctl daemon-reload
-systemctl enable clodds
-systemctl start clodds
+systemctl enable rachelbot
+systemctl start rachelbot
 ```
 
 ## Reverse proxy and TLS
@@ -132,7 +132,7 @@ port 18789 from the proxy.
 git pull
 npm ci
 npm run build
-systemctl restart clodds
+systemctl restart rachelbot
 ```
 
 For Docker:
@@ -145,29 +145,29 @@ docker compose up -d --build
 ## Monitoring and health checks
 
 - `GET /health` returns gateway status.
-- `clodds doctor` runs local checks for config and channel health.
+- `rachelbot doctor` runs local checks for config and channel health.
 
 ## Backups
 
-The SQLite DB is stored at `$CLODDS_STATE_DIR/clodds.db` (defaults to
-`~/.clodds/clodds.db`). Backups are written to
-`$CLODDS_STATE_DIR/backups` (see `CLODDS_DB_BACKUP_*` in `.env.example`).
+The SQLite DB is stored at `$RACHELBOT_STATE_DIR/rachelbot.db` (defaults to
+`~/.rachelbot/rachelbot.db`). Backups are written to
+`$RACHELBOT_STATE_DIR/backups` (see `RACHELBOT_DB_BACKUP_*` in `.env.example`).
 
 ## Server Security Hardening
 
-Clodds includes a built-in server hardening CLI for production Linux servers.
+RachelBot includes a built-in server hardening CLI for production Linux servers.
 
 ### Quick Start
 
 ```bash
 # Preview what will be changed (safe)
-clodds secure --dry-run
+rachelbot secure --dry-run
 
 # Apply all hardening interactively
-sudo clodds secure
+sudo rachelbot secure
 
 # Non-interactive mode
-sudo clodds secure --yes
+sudo rachelbot secure --yes
 ```
 
 ### What it does
@@ -185,7 +185,7 @@ sudo clodds secure --yes
 Run an audit without making changes:
 
 ```bash
-clodds secure audit
+rachelbot secure audit
 ```
 
 This checks:

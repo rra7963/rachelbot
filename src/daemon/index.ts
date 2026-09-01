@@ -14,18 +14,18 @@ import { homedir, platform } from 'os';
 import { join } from 'path';
 import { logger } from '../utils/logger';
 
-const SERVICE_NAME = 'com.clodds.gateway';
+const SERVICE_NAME = 'com.rachelbot.gateway';
 
 function getLaunchdPlist() {
   return join(homedir(), 'Library', 'LaunchAgents', `${SERVICE_NAME}.plist`);
 }
 
 function getSystemdService() {
-  return join(homedir(), '.config', 'systemd', 'user', 'clodds.service');
+  return join(homedir(), '.config', 'systemd', 'user', 'rachelbot.service');
 }
 
 function getLogPath() {
-  return join(homedir(), '.clodds', 'gateway.log');
+  return join(homedir(), '.rachelbot', 'gateway.log');
 }
 
 export interface DaemonService {
@@ -56,7 +56,7 @@ export function createDaemonService(): DaemonService {
   <array>
     <string>/usr/bin/env</string>
     <string>npx</string>
-    <string>clodds</string>
+    <string>rachelbot</string>
     <string>gateway</string>
   </array>
   <key>RunAtLoad</key>
@@ -75,12 +75,12 @@ export function createDaemonService(): DaemonService {
         logger.info('Daemon installed (launchd)');
       } else if (os === 'linux') {
         const service = `[Unit]
-Description=Clodds Gateway
+Description=RachelBot Gateway
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/env npx clodds gateway
+ExecStart=/usr/bin/env npx rachelbot gateway
 Restart=always
 RestartSec=10
 
@@ -89,7 +89,7 @@ WantedBy=default.target`;
         const servicePath = getSystemdService();
         writeFileSync(servicePath, service);
         execFileSync('systemctl', ['--user', 'daemon-reload']);
-        execFileSync('systemctl', ['--user', 'enable', 'clodds']);
+        execFileSync('systemctl', ['--user', 'enable', 'rachelbot']);
         logger.info('Daemon installed (systemd)');
       } else {
         throw new Error(`Unsupported platform: ${os}`);
@@ -106,7 +106,7 @@ WantedBy=default.target`;
         logger.info('Daemon uninstalled');
       } else if (os === 'linux') {
         const servicePath = getSystemdService();
-        execFileSync('systemctl', ['--user', 'disable', 'clodds']);
+        execFileSync('systemctl', ['--user', 'disable', 'rachelbot']);
         if (existsSync(servicePath)) {
           unlinkSync(servicePath);
         }
@@ -119,7 +119,7 @@ WantedBy=default.target`;
       if (os === 'darwin') {
         execFileSync('launchctl', ['start', SERVICE_NAME]);
       } else if (os === 'linux') {
-        execFileSync('systemctl', ['--user', 'start', 'clodds']);
+        execFileSync('systemctl', ['--user', 'start', 'rachelbot']);
       }
       logger.info('Daemon started');
     },
@@ -128,7 +128,7 @@ WantedBy=default.target`;
       if (os === 'darwin') {
         execFileSync('launchctl', ['stop', SERVICE_NAME]);
       } else if (os === 'linux') {
-        execFileSync('systemctl', ['--user', 'stop', 'clodds']);
+        execFileSync('systemctl', ['--user', 'stop', 'rachelbot']);
       }
       logger.info('Daemon stopped');
     },
@@ -151,7 +151,7 @@ WantedBy=default.target`;
           const pid = parseInt(parts[0], 10);
           return { installed: true, running: !isNaN(pid) && pid > 0, pid: isNaN(pid) ? undefined : pid };
         } else if (os === 'linux') {
-          const output = execFileSync('systemctl', ['--user', 'is-active', 'clodds'], { encoding: 'utf-8' });
+          const output = execFileSync('systemctl', ['--user', 'is-active', 'rachelbot'], { encoding: 'utf-8' });
           return { installed: true, running: output.trim() === 'active' };
         }
       } catch {

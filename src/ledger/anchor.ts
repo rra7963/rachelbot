@@ -71,7 +71,7 @@ async function anchorToSolana(
     const MEMO_PROGRAM_ID = new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr');
 
     // Create memo instruction with the hash
-    const memoData = `clodds:ledger:${hash}`;
+    const memoData = `rachelbot:ledger:${hash}`;
     const memoIx = new TransactionInstruction({
       keys: [],
       programId: MEMO_PROGRAM_ID,
@@ -144,8 +144,8 @@ async function anchorToEvm(
 
     const wallet = new ethers.Wallet(privateKey, provider);
 
-    // Encode hash as calldata (0x prefix + "clodds:ledger:" + hash)
-    const data = ethers.hexlify(ethers.toUtf8Bytes(`clodds:ledger:${hash}`));
+    // Encode hash as calldata (0x prefix + "rachelbot:ledger:" + hash)
+    const data = ethers.hexlify(ethers.toUtf8Bytes(`rachelbot:ledger:${hash}`));
 
     // Send minimal transaction to self with hash in data
     const tx = await wallet.sendTransaction({
@@ -281,7 +281,7 @@ export async function verifyAnchor(
   chain: AnchorChain
 ): Promise<{ verified: boolean; error?: string }> {
   try {
-    const expectedData = `clodds:ledger:${expectedHash}`;
+    const expectedData = `rachelbot:ledger:${expectedHash}`;
 
     if (chain === 'solana') {
       const { Connection } = await import('@solana/web3.js');

@@ -38,7 +38,7 @@ export OPINION_PRIVATE_KEY="0x..."
 export OPINION_MULTISIG_ADDRESS="0x..."
 ```
 
-Or in `~/.clodds/clodds.json`:
+Or in `~/.rachelbot/rachelbot.json`:
 
 ```json
 {

@@ -447,9 +447,9 @@ export class ExecApprovalsManager extends EventEmitter {
 
   constructor(configPath?: string) {
     super();
-    this.configPath = configPath || join(homedir(), '.clodds', 'exec-approvals.json');
-    this.pendingPath = join(homedir(), '.clodds', 'exec-approvals.pending.json');
-    this.decisionsPath = join(homedir(), '.clodds', 'exec-approvals.decisions.json');
+    this.configPath = configPath || join(homedir(), '.rachelbot', 'exec-approvals.json');
+    this.pendingPath = join(homedir(), '.rachelbot', 'exec-approvals.pending.json');
+    this.decisionsPath = join(homedir(), '.rachelbot', 'exec-approvals.decisions.json');
     this.config = this.loadConfig();
 
     const pending = this.loadPendingFile();

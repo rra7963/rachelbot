@@ -97,7 +97,7 @@ export class SessionManager extends EventEmitter {
       ...config,
     };
 
-    this.storageDir = config.storageDir || join(homedir(), '.clodds', 'sessions');
+    this.storageDir = config.storageDir || join(homedir(), '.rachelbot', 'sessions');
     this.localParticipantId = this.generateId();
     this.ensureStorageDir();
     this.loadSessions();
@@ -498,7 +498,7 @@ export class SessionManager extends EventEmitter {
     }
 
     const hash = createHash('sha256').update(sessionId + session.createdAt.toISOString()).digest('hex').slice(0, 16);
-    return `clodds://session/${sessionId}?key=${hash}`;
+    return `rachelbot://session/${sessionId}?key=${hash}`;
   }
 }
 

@@ -51,17 +51,17 @@ The setup wizard walks through model credentials, messaging channels, and gatewa
 
 ## Command line
 
-The published package and CLI currently retain the legacy `clodds` command for compatibility:
+RachelBot uses the `rachelbot` command:
 
 ```bash
-clodds onboard        # Interactive setup wizard
-clodds start          # Start the gateway
-clodds repl           # Open the interactive REPL
-clodds doctor         # Run system diagnostics
-clodds secure         # Apply security hardening
-clodds locale set zh  # Change the interface language
-clodds mcp            # Start the MCP server
-clodds mcp install    # Configure Claude Desktop/Code
+rachelbot onboard        # Interactive setup wizard
+rachelbot start          # Start the gateway
+rachelbot repl           # Open the interactive REPL
+rachelbot doctor         # Run system diagnostics
+rachelbot secure         # Apply security hardening
+rachelbot locale set zh  # Change the interface language
+rachelbot mcp            # Start the MCP server
+rachelbot mcp install    # Configure Claude Desktop/Code
 ```
 
 See the [User Guide](./docs/USER_GUIDE.md) for the complete command reference.
@@ -162,7 +162,7 @@ POLYMARKET_API_KEY=...
 SOLANA_PRIVATE_KEY=...
 ```
 
-Local application data is currently stored under `~/.clodds/` for compatibility with existing installations.
+Local application data is stored under `~/.rachelbot/`.
 
 Never commit `.env`, private keys, seed phrases, or exchange credentials.
 
@@ -195,8 +195,8 @@ SQLite · LanceDB · PostgreSQL
 RachelBot can expose bundled skills as MCP tools for compatible clients. It also supports lazy-loaded extensions so optional integrations do not prevent the core application from starting.
 
 ```bash
-clodds mcp
-clodds mcp install
+rachelbot mcp
+rachelbot mcp install
 ```
 
 ## Development

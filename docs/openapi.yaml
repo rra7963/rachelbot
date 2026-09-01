@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Clodds Compute API
+  title: RachelBot Compute API
   description: |
     Agent compute marketplace - pay USDC for compute resources.
     No API keys required, just a wallet address.
@@ -25,7 +25,7 @@ info:
     url: https://opensource.org/licenses/MIT
 
 servers:
-  - url: https://api.clodds.com/v1
+  - url: https://api.rachelbot.com/v1
     description: Production
   - url: http://localhost:3456/v1
     description: Local development
@@ -46,7 +46,7 @@ tags:
   - name: Admin
     description: Admin operations (protected)
   - name: Bittensor
-    description: Bittensor subnet mining (requires CLODDS_TOKEN auth)
+    description: Bittensor subnet mining (requires RACHELBOT_TOKEN auth)
   - name: Percolator
     description: On-chain Solana perpetual futures (requires PERCOLATOR_ENABLED)
   - name: Shield
@@ -705,7 +705,7 @@ paths:
                     example: ok
                   service:
                     type: string
-                    example: clodds-compute
+                    example: rachelbot-compute
                   version:
                     type: string
                     example: v1

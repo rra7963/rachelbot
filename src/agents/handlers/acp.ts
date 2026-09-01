@@ -536,7 +536,7 @@ async function acpRegisterHandleHandler(toolInput: ToolInput): Promise<HandlerRe
       handle: `@${result.handle}`,
       agentId: result.agentId,
       ownerAddress: result.ownerAddress.slice(0, 8) + '...',
-      url: `https://clodds.com/@${result.handle}`,
+      url: `https://rachelbot.com/@${result.handle}`,
     };
   });
 }
@@ -696,7 +696,7 @@ async function acpGetReferralCodeHandler(toolInput: ToolInput): Promise<HandlerR
     const code = await identity.referrals.createCode(referrerAddress);
     return {
       code,
-      shareUrl: `https://clodds.com/join?ref=${code}`,
+      shareUrl: `https://rachelbot.com/join?ref=${code}`,
       feeShare: '5%',
     };
   });

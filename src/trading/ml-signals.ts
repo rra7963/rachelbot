@@ -16,8 +16,8 @@
 import { execSync, spawn } from 'child_process';
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
-import { homedir } from 'os';
 import { logger } from '../utils/logger';
+import { resolveStateDir } from '../utils/config';
 
 // =============================================================================
 // TYPES
@@ -260,7 +260,7 @@ export function extractFeatures(
  * Create a simple ML signal model using statistical methods
  */
 export function createMLSignalModel(config: ModelConfig): MLSignalModel {
-  const modelDir = join(homedir(), '.clodds', 'models');
+  const modelDir = join(resolveStateDir(), 'models');
   if (!existsSync(modelDir)) {
     mkdirSync(modelDir, { recursive: true });
   }

@@ -97,7 +97,7 @@ export class OAuthClient {
     }
 
     this.tokenStorePath = config.tokenStorePath ||
-      path.join(process.env.HOME || '', '.clodds', 'tokens', `${config.provider}.json`);
+      path.join(process.env.HOME || '', '.rachelbot', 'tokens', `${config.provider}.json`);
 
     this.loadTokens();
   }

@@ -32,7 +32,7 @@ interface LaunchRecord {
   description?: string;
   /** Creator wallet address */
   creatorWallet: string;
-  /** Registered Clodds agent ID that launched this token */
+  /** Registered RachelBot agent ID that launched this token */
   agentId: string;
   /** Creator fee % */
   creatorFeePercent: number;
@@ -54,7 +54,7 @@ interface LaunchRecord {
   feeDelegates?: string[];
 }
 
-const STATE_DIR = process.env.CLODDS_STATE_DIR || join(process.cwd(), '.clodds');
+const STATE_DIR = process.env.RACHELBOT_STATE_DIR || join(process.cwd(), '.rachelbot');
 const LAUNCHES_FILE = join(STATE_DIR, 'launches.json');
 
 function loadLaunches(): LaunchRecord[] {
@@ -428,7 +428,7 @@ export function createLaunchRouter(connection: Connection, keypair: Keypair): Ro
     res.json({
       ok: true,
       data: {
-        service: 'Clodds Launch API',
+        service: 'RachelBot Launch API',
         version: '1.0.0',
         description: 'One-call Solana token launches with bonding curves and automatic AMM graduation.',
         feeSplit: '90/10 — creator keeps 90% of trading fees',
@@ -466,7 +466,7 @@ export function createLaunchRouter(connection: Connection, keypair: Keypair): Ro
         exampleRequest: {
           name: 'My Token',
           symbol: 'MTK',
-          description: 'A token launched via Clodds',
+          description: 'A token launched via RachelBot',
           imageUrl: 'https://example.com/logo.png',
           creatorWallet: '<your-solana-pubkey>',
           initialBuySol: 0.5,
@@ -476,7 +476,7 @@ export function createLaunchRouter(connection: Connection, keypair: Keypair): Ro
   });
 
   // ── GET /api/launch/list ────────────────────────────────────────────────
-  // Public directory of all tokens launched via Clodds (free, no auth)
+  // Public directory of all tokens launched via RachelBot (free, no auth)
   router.get('/list', (_req: Request, res: Response) => {
     res.json({
       ok: true,
@@ -488,14 +488,14 @@ export function createLaunchRouter(connection: Connection, keypair: Keypair): Ro
   });
 
   // ── POST /api/launch/token ───────────────────────────────────────────────
-  // Launch a token — requires a registered Clodds agent
+  // Launch a token — requires a registered RachelBot agent
   router.post('/token', async (req: Request, res: Response) => {
-    // ── Agent gate: only registered Clodds agents can launch ──────────
+    // ── Agent gate: only registered RachelBot agents can launch ──────────
     const agentId = (req.headers['x-agent-id'] as string) ?? req.body?.agentId;
     if (!agentId || typeof agentId !== 'string') {
       res.status(401).json({
         ok: false,
-        error: 'Launching requires a registered Clodds agent. Provide agentId in request body or X-Agent-Id header.',
+        error: 'Launching requires a registered RachelBot agent. Provide agentId in request body or X-Agent-Id header.',
       });
       return;
     }
@@ -511,7 +511,7 @@ export function createLaunchRouter(connection: Connection, keypair: Keypair): Ro
     if (!agentProfile || agentProfile.status !== 'active') {
       res.status(403).json({
         ok: false,
-        error: `Agent "${agentId}" is not a registered active Clodds agent. Register at /api/acp/agents first.`,
+        error: `Agent "${agentId}" is not a registered active RachelBot agent. Register at /api/acp/agents first.`,
       });
       return;
     }

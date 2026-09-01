@@ -190,7 +190,7 @@ export interface AuthProfileManager {
   load(): void;
 }
 
-const PROFILES_DIR = join(homedir(), '.clodds', 'auth');
+const PROFILES_DIR = join(homedir(), '.rachelbot', 'auth');
 const PROFILES_FILE = join(PROFILES_DIR, 'profiles.json');
 
 /**

@@ -2,13 +2,13 @@
  * Skills CLI Commands - Manage skills from command line
  *
  * Commands:
- * - clodds skills list - List installed skills
- * - clodds skills list --verbose - Show detailed info (requirements, commands)
- * - clodds skills search <query> - Search registry
- * - clodds skills install <slug> - Install a skill
- * - clodds skills update [slug] - Update skill(s)
- * - clodds skills uninstall <slug> - Uninstall a skill
- * - clodds skills info <slug> - Show skill details
+ * - rachelbot skills list - List installed skills
+ * - rachelbot skills list --verbose - Show detailed info (requirements, commands)
+ * - rachelbot skills search <query> - Search registry
+ * - rachelbot skills install <slug> - Install a skill
+ * - rachelbot skills update [slug] - Update skill(s)
+ * - rachelbot skills uninstall <slug> - Uninstall a skill
+ * - rachelbot skills info <slug> - Show skill details
  */
 
 import * as fs from 'fs';
@@ -68,8 +68,8 @@ export function createSkillsCommands(): SkillsCommands {
 
       if (skills.length === 0) {
         console.log('No skills installed.\n');
-        console.log('Search for skills: clodds skills search <query>');
-        console.log('Install a skill:   clodds skills install <slug>\n');
+        console.log('Search for skills: rachelbot skills search <query>');
+        console.log('Install a skill:   rachelbot skills install <slug>\n');
         return;
       }
 
@@ -155,7 +155,7 @@ export function createSkillsCommands(): SkillsCommands {
           console.log(formatRegistrySkill(skill));
         }
 
-        console.log('\nInstall with: clodds skills install <slug>\n');
+        console.log('\nInstall with: rachelbot skills install <slug>\n');
       } catch (error) {
         console.error('Search failed:', error instanceof Error ? error.message : 'Unknown error');
       }
@@ -293,7 +293,7 @@ export function createSkillsCommands(): SkillsCommands {
           console.log(`  ${update.slug}: ${update.currentVersion} → ${update.latestVersion}`);
         }
 
-        console.log('\nRun "clodds skills update" to update all.\n');
+        console.log('\nRun "rachelbot skills update" to update all.\n');
       } catch (error) {
         console.error('Check failed:', error instanceof Error ? error.message : 'Unknown error');
       }
