@@ -151,11 +151,11 @@ export function createLogger(options: LoggerOptions = {}): Logger {
     if (typeof options.file === 'string') {
       filePath = options.file;
     } else {
-      const logsDir = join(homedir(), '.clodds', 'logs');
+      const logsDir = join(homedir(), '.rachelbot', 'logs');
       if (!existsSync(logsDir)) {
         mkdirSync(logsDir, { recursive: true });
       }
-      filePath = join(logsDir, 'clodds.log');
+      filePath = join(logsDir, 'rachelbot.log');
     }
   }
 

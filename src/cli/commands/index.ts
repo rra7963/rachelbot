@@ -30,7 +30,7 @@ export function createConfigCommands(program: Command): void {
     .command('get [key]')
     .description('Get config value or show all')
     .action(async (key?: string) => {
-      const configPath = join(homedir(), '.clodds', 'config.json');
+      const configPath = join(homedir(), '.rachelbot', 'config.json');
       if (!existsSync(configPath)) {
         console.log('No configuration file found');
         return;
@@ -50,7 +50,7 @@ export function createConfigCommands(program: Command): void {
     .command('set <key> <value>')
     .description('Set a config value')
     .action(async (key: string, value: string) => {
-      const configDir = join(homedir(), '.clodds');
+      const configDir = join(homedir(), '.rachelbot');
       const configPath = join(configDir, 'config.json');
 
       if (!existsSync(configDir)) {
@@ -86,7 +86,7 @@ export function createConfigCommands(program: Command): void {
     .command('unset <key>')
     .description('Remove a config value')
     .action(async (key: string) => {
-      const configPath = join(homedir(), '.clodds', 'config.json');
+      const configPath = join(homedir(), '.rachelbot', 'config.json');
       if (!existsSync(configPath)) {
         console.log('No configuration file found');
         return;
@@ -109,7 +109,7 @@ export function createConfigCommands(program: Command): void {
     .command('path')
     .description('Show config file path')
     .action(() => {
-      console.log(join(homedir(), '.clodds', 'config.json'));
+      console.log(join(homedir(), '.rachelbot', 'config.json'));
     });
 }
 
@@ -163,7 +163,7 @@ export function createModelCommands(program: Command): void {
     .command('default [model]')
     .description('Get or set default model')
     .action(async (model?: string) => {
-      const configPath = join(homedir(), '.clodds', 'config.json');
+      const configPath = join(homedir(), '.rachelbot', 'config.json');
       let data: Record<string, unknown> = {};
 
       if (existsSync(configPath)) {
@@ -193,7 +193,7 @@ export function createSessionCommands(program: Command): void {
     .command('list')
     .description('List active sessions')
     .action(async () => {
-      const sessionsDir = join(homedir(), '.clodds', 'sessions');
+      const sessionsDir = join(homedir(), '.rachelbot', 'sessions');
       if (!existsSync(sessionsDir)) {
         console.log('No sessions found');
         return;
@@ -217,7 +217,7 @@ export function createSessionCommands(program: Command): void {
     .description('Clear a session or all sessions')
     .option('-a, --all', 'Clear all sessions')
     .action(async (sessionId?: string, options?: { all?: boolean }) => {
-      const sessionsDir = join(homedir(), '.clodds', 'sessions');
+      const sessionsDir = join(homedir(), '.rachelbot', 'sessions');
 
       if (options?.all) {
         if (existsSync(sessionsDir)) {
@@ -1254,7 +1254,7 @@ export function createMcpCommands(program: Command): void {
     .action(async () => {
       const mcpConfigPaths = [
         join(process.cwd(), '.mcp.json'),
-        join(homedir(), '.config', 'clodds', 'mcp.json'),
+        join(homedir(), '.config', 'rachelbot', 'mcp.json'),
       ];
 
       for (const path of mcpConfigPaths) {
@@ -1295,12 +1295,12 @@ export function createMcpCommands(program: Command): void {
     .option('--global', 'Add to global config instead of project')
     .action(async (name: string, command: string, options: { args?: string; env?: string; global?: boolean }) => {
       const configPath = options.global
-        ? join(homedir(), '.config', 'clodds', 'mcp.json')
+        ? join(homedir(), '.config', 'rachelbot', 'mcp.json')
         : join(process.cwd(), '.mcp.json');
 
       // Ensure directory exists for global config
       if (options.global) {
-        const configDir = join(homedir(), '.config', 'clodds');
+        const configDir = join(homedir(), '.config', 'rachelbot');
         if (!existsSync(configDir)) {
           mkdirSync(configDir, { recursive: true });
         }
@@ -1364,7 +1364,7 @@ export function createMcpCommands(program: Command): void {
     .option('--global', 'Remove from global config instead of project')
     .action(async (name: string, options: { global?: boolean }) => {
       const configPath = options.global
-        ? join(homedir(), '.config', 'clodds', 'mcp.json')
+        ? join(homedir(), '.config', 'rachelbot', 'mcp.json')
         : join(process.cwd(), '.mcp.json');
 
       if (!existsSync(configPath)) {
@@ -1397,8 +1397,8 @@ export function createMcpCommands(program: Command): void {
     .option('--timeout <ms>', 'Timeout in milliseconds', '5000')
     .action(async (name: string, options: { global?: boolean; timeout?: string }) => {
       const configPaths = options.global
-        ? [join(homedir(), '.config', 'clodds', 'mcp.json')]
-        : [join(process.cwd(), '.mcp.json'), join(homedir(), '.config', 'clodds', 'mcp.json')];
+        ? [join(homedir(), '.config', 'rachelbot', 'mcp.json')]
+        : [join(process.cwd(), '.mcp.json'), join(homedir(), '.config', 'rachelbot', 'mcp.json')];
 
       let serverConfig: { command?: string; args?: string[]; env?: Record<string, string> } | null = null;
       let foundPath = '';
@@ -2021,18 +2021,18 @@ export function createUsageCommands(program: Command): void {
 export function createInitCommand(program: Command): void {
   program
     .command('init')
-    .description('Initialize Clodds in current directory')
+    .description('Initialize RachelBot in current directory')
     .option('-f, --force', 'Overwrite existing config')
     .action(async (options: { force?: boolean }) => {
-      const configPath = join(process.cwd(), '.clodds.json');
+      const configPath = join(process.cwd(), '.rachelbot.json');
 
       if (existsSync(configPath) && !options.force) {
-        console.log('Clodds already initialized. Use --force to overwrite.');
+        console.log('RachelBot already initialized. Use --force to overwrite.');
         return;
       }
 
       const defaultConfig = {
-        name: 'clodds-project',
+        name: 'rachelbot-project',
         version: '0.1.0',
         model: 'claude-3-5-sonnet-20241022',
         features: {
@@ -2043,7 +2043,7 @@ export function createInitCommand(program: Command): void {
       };
 
       writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2));
-      console.log('Initialized Clodds project.');
+      console.log('Initialized RachelBot project.');
       console.log(`Config written to ${configPath}`);
     });
 }
@@ -2055,7 +2055,7 @@ export function createInitCommand(program: Command): void {
 export function createUpgradeCommand(program: Command): void {
   program
     .command('upgrade')
-    .description('Upgrade Clodds to latest version')
+    .description('Upgrade RachelBot to latest version')
     .option('--check', 'Check for updates only')
     .action(async (options: { check?: boolean }) => {
       console.log('Checking for updates...');
@@ -2065,7 +2065,7 @@ export function createUpgradeCommand(program: Command): void {
         console.log('Latest version: 0.1.0');
         console.log('You are up to date!');
       } else {
-        console.log('To upgrade, run: npm install -g clodds@latest');
+        console.log('To upgrade, run: npm install -g rachelbot@latest');
       }
     });
 }
@@ -2077,12 +2077,12 @@ export function createUpgradeCommand(program: Command): void {
 export function createLoginCommand(program: Command): void {
   program
     .command('login')
-    .description('Login to Clodds services')
+    .description('Login to RachelBot services')
     .option('-p, --provider <provider>', 'Provider (anthropic, openai)')
     .action(async (options: { provider?: string }) => {
       const provider = options.provider || 'anthropic';
       console.log(`\nTo configure ${provider}:`);
-      console.log(`  clodds config set ${provider}.apiKey YOUR_API_KEY`);
+      console.log(`  rachelbot config set ${provider}.apiKey YOUR_API_KEY`);
     });
 }
 
@@ -2093,10 +2093,10 @@ export function createLoginCommand(program: Command): void {
 export function createLogoutCommand(program: Command): void {
   program
     .command('logout')
-    .description('Logout from Clodds services')
+    .description('Logout from RachelBot services')
     .option('-a, --all', 'Logout from all providers')
     .action(async (options: { all?: boolean }) => {
-      console.log('Logged out from Clodds services');
+      console.log('Logged out from RachelBot services');
     });
 }
 
@@ -2109,7 +2109,7 @@ export function createVersionCommand(program: Command): void {
     .command('version')
     .description('Show detailed version info')
     .action(async () => {
-      console.log('\nClodds Version Info\n');
+      console.log('\nRachelBot Version Info\n');
       console.log('  Version: 0.1.0');
       console.log('  Node.js: ' + process.version);
       console.log('  Platform: ' + process.platform);
@@ -2500,7 +2500,7 @@ export function createCredsCommands(program: Command): void {
       console.log(`\nSummary: ${passed} passed, ${warned} warnings, ${failed} failed`);
 
       if (failed > 0) {
-        console.log('\n💡 Run `clodds doctor` for full system diagnostics');
+        console.log('\n💡 Run `rachelbot doctor` for full system diagnostics');
         process.exitCode = 1;
       }
     });
@@ -2528,8 +2528,8 @@ export function createLocaleCommands(program: Command): void {
         const marker = loc.code === current ? ' ← current' : '';
         console.log(`  ${loc.code}  ${loc.nativeName.padEnd(10)} (${loc.name})${marker}`);
       }
-      console.log('\nSet with: clodds locale set <code>');
-      console.log('Or: CLODDS_LOCALE=<code> in .env\n');
+      console.log('\nSet with: rachelbot locale set <code>');
+      console.log('Or: RACHELBOT_LOCALE=<code> in .env\n');
     });
 
   locale
@@ -2558,7 +2558,7 @@ export function createLocaleCommands(program: Command): void {
       }
 
       // Save to config
-      const configPath = join(homedir(), '.clodds', 'config.json');
+      const configPath = join(homedir(), '.rachelbot', 'config.json');
       let config: Record<string, unknown> = {};
 
       if (existsSync(configPath)) {
@@ -2566,7 +2566,7 @@ export function createLocaleCommands(program: Command): void {
       }
 
       config.locale = code.toLowerCase();
-      const configDir = join(homedir(), '.clodds');
+      const configDir = join(homedir(), '.rachelbot');
       if (!existsSync(configDir)) {
         mkdirSync(configDir, { recursive: true });
       }
@@ -2775,7 +2775,7 @@ export function createLedgerCommands(program: Command): void {
     .command('config')
     .description('Show ledger configuration')
     .action(async () => {
-      const configPath = join(homedir(), '.clodds', 'config.json');
+      const configPath = join(homedir(), '.rachelbot', 'config.json');
       let ledgerConfig = {
         enabled: false,
         captureAll: false,
@@ -2795,7 +2795,7 @@ export function createLedgerCommands(program: Command): void {
       console.log(`  hashIntegrity:  ${ledgerConfig.hashIntegrity ? 'SHA-256 enabled' : 'Disabled'}`);
       console.log(`  retentionDays:  ${ledgerConfig.retentionDays}`);
       console.log(`  onchainAnchor:  ${ledgerConfig.onchainAnchor ? 'Enabled' : 'Disabled'}`);
-      console.log('\nEnable with: clodds config set ledger.enabled true\n');
+      console.log('\nEnable with: rachelbot config set ledger.enabled true\n');
     });
 
   ledger
@@ -2903,7 +2903,7 @@ export function createBittensorCommands(program: Command): void {
   // ── setup: full onboarding wizard ──────────────────────────────────────────
   bittensor
     .command('setup')
-    .description('One-command setup: installs btcli, creates wallet, configures Clodds')
+    .description('One-command setup: installs btcli, creates wallet, configures RachelBot')
     .option('--wallet-name <name>', 'Wallet name', 'default')
     .option('--skip-install', 'Skip btcli installation')
     .action(async (options: { walletName?: string; skipInstall?: boolean }) => {
@@ -3019,9 +3019,9 @@ export function createBittensorCommands(program: Command): void {
       }
 
       // Step 4: Write config
-      console.log('\n[4/5] Configuring Clodds...');
-      const cloddsDir = join(homedir(), '.clodds');
-      const configPath = join(cloddsDir, 'clodds.json');
+      console.log('\n[4/5] Configuring RachelBot...');
+      const rachelbotDir = join(homedir(), '.rachelbot');
+      const configPath = join(rachelbotDir, 'rachelbot.json');
 
       let existingConfig: Record<string, unknown> = {};
       if (existsSync(configPath)) {
@@ -3031,7 +3031,7 @@ export function createBittensorCommands(program: Command): void {
           // fresh config
         }
       } else {
-        mkdirSync(cloddsDir, { recursive: true });
+        mkdirSync(rachelbotDir, { recursive: true });
       }
 
       existingConfig.bittensor = {
@@ -3059,9 +3059,9 @@ export function createBittensorCommands(program: Command): void {
         }
       }
       console.log('  Register on a subnet (Chutes SN64 recommended):');
-      console.log('    clodds bittensor register 64\n');
-      console.log('  Then start Clodds:');
-      console.log('    clodds start\n');
+      console.log('    rachelbot bittensor register 64\n');
+      console.log('  Then start RachelBot:');
+      console.log('    rachelbot start\n');
       console.log('  Monitor in chat:');
       console.log('    /tao status');
       console.log('    /tao earnings\n');
@@ -3079,7 +3079,7 @@ export function createBittensorCommands(program: Command): void {
     .action(async (options: { name?: string }) => {
       const pythonPath = process.env.BITTENSOR_PYTHON_PATH || detectPython();
       if (!pythonPath) {
-        console.log('\nPython not found. Run: clodds bittensor setup\n');
+        console.log('\nPython not found. Run: rachelbot bittensor setup\n');
         return;
       }
 
@@ -3095,7 +3095,7 @@ export function createBittensorCommands(program: Command): void {
       if (overview.ok) {
         console.log(overview.stdout);
       } else {
-        console.log(`  Not found. Create: clodds bittensor setup\n`);
+        console.log(`  Not found. Create: rachelbot bittensor setup\n`);
       }
     });
 
@@ -3106,7 +3106,7 @@ export function createBittensorCommands(program: Command): void {
     .action(async (options: { name?: string }) => {
       const pythonPath = process.env.BITTENSOR_PYTHON_PATH || detectPython();
       if (!pythonPath || !hasBtcli(pythonPath)) {
-        console.log('\nbtcli not found. Run: clodds bittensor setup\n');
+        console.log('\nbtcli not found. Run: rachelbot bittensor setup\n');
         return;
       }
 
@@ -3135,7 +3135,7 @@ export function createBittensorCommands(program: Command): void {
     .action(async (options: { name?: string }) => {
       const pythonPath = process.env.BITTENSOR_PYTHON_PATH || detectPython();
       if (!pythonPath || !hasBtcli(pythonPath)) {
-        console.log('\nbtcli not found. Run: clodds bittensor setup\n');
+        console.log('\nbtcli not found. Run: rachelbot bittensor setup\n');
         return;
       }
 
@@ -3156,19 +3156,19 @@ export function createBittensorCommands(program: Command): void {
     .action(async (subnetId: string, options: { name?: string }) => {
       const pythonPath = process.env.BITTENSOR_PYTHON_PATH || detectPython();
       if (!pythonPath || !hasBtcli(pythonPath)) {
-        console.log('\nbtcli not found. Run: clodds bittensor setup\n');
+        console.log('\nbtcli not found. Run: rachelbot bittensor setup\n');
         return;
       }
 
       const id = parseInt(subnetId, 10);
       if (isNaN(id)) {
-        console.log('\nInvalid subnet ID. Example: clodds bittensor register 64\n');
+        console.log('\nInvalid subnet ID. Example: rachelbot bittensor register 64\n');
         return;
       }
 
       // Read network from config
       let network = 'mainnet';
-      const cfgPath = join(homedir(), '.clodds', 'clodds.json');
+      const cfgPath = join(homedir(), '.rachelbot', 'rachelbot.json');
       if (existsSync(cfgPath)) {
         try {
           const cfg = JSON.parse(readFileSync(cfgPath, 'utf-8'));
@@ -3177,7 +3177,7 @@ export function createBittensorCommands(program: Command): void {
       }
 
       console.log(`\nRegistering on subnet ${id} (${network})...`);
-      console.log('This may cost TAO. Check your balance first: clodds bittensor wallet balance\n');
+      console.log('This may cost TAO. Check your balance first: rachelbot bittensor wallet balance\n');
 
       const args = [
         'subnet', 'register',
@@ -3209,7 +3209,7 @@ export function createBittensorCommands(program: Command): void {
       const { loadConfig } = await import('../../utils/config');
       const config = await loadConfig();
       if (!config.bittensor?.enabled) {
-        console.log('\nBittensor is not enabled. Run: clodds bittensor setup\n');
+        console.log('\nBittensor is not enabled. Run: rachelbot bittensor setup\n');
         return;
       }
       console.log('\nBittensor Configuration:');
@@ -3239,12 +3239,12 @@ export function createBittensorCommands(program: Command): void {
       const port = options.port ?? '18789';
       const period = options.period ?? 'daily';
       try {
-        const token = process.env.CLODDS_TOKEN;
+        const token = process.env.RACHELBOT_TOKEN;
         const headers: Record<string, string> = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
         const r = await fetch(`http://127.0.0.1:${port}/api/bittensor/earnings?period=${period}`, { headers });
         if (!r.ok) {
-          console.log(`\nGateway returned ${r.status}. Is Clodds running? (clodds start)\n`);
+          console.log(`\nGateway returned ${r.status}. Is RachelBot running? (rachelbot start)\n`);
           return;
         }
         const body = await r.json() as { ok: boolean; data?: Array<{ subnetId: number; hotkey: string; taoEarned: number; usdEarned: number }> };
@@ -3260,7 +3260,7 @@ export function createBittensorCommands(program: Command): void {
         console.log(`  USD: $${totalUsd.toFixed(2)}`);
         console.log(`  Records: ${data.length}\n`);
       } catch {
-        console.log('\nCould not reach gateway. Is Clodds running? (clodds start)\n');
+        console.log('\nCould not reach gateway. Is RachelBot running? (rachelbot start)\n');
       }
     });
 
@@ -3272,12 +3272,12 @@ export function createBittensorCommands(program: Command): void {
     .action(async (options: { port?: string }) => {
       const port = options.port ?? '18789';
       try {
-        const token = process.env.CLODDS_TOKEN;
+        const token = process.env.RACHELBOT_TOKEN;
         const headers: Record<string, string> = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
         const r = await fetch(`http://127.0.0.1:${port}/api/bittensor/miners`, { headers });
         if (!r.ok) {
-          console.log(`\nGateway returned ${r.status}. Is Clodds running? (clodds start)\n`);
+          console.log(`\nGateway returned ${r.status}. Is RachelBot running? (rachelbot start)\n`);
           return;
         }
         const body = await r.json() as { ok: boolean; data?: Array<{ subnetId: number; hotkey: string; uid: number; trust: number; incentive: number; emission: number; rank: number; active: boolean }> };
@@ -3292,7 +3292,7 @@ export function createBittensorCommands(program: Command): void {
         }
         console.log('');
       } catch {
-        console.log('\nCould not reach gateway. Is Clodds running? (clodds start)\n');
+        console.log('\nCould not reach gateway. Is RachelBot running? (rachelbot start)\n');
       }
     });
 
@@ -3304,12 +3304,12 @@ export function createBittensorCommands(program: Command): void {
     .action(async (options: { port?: string }) => {
       const port = options.port ?? '18789';
       try {
-        const token = process.env.CLODDS_TOKEN;
+        const token = process.env.RACHELBOT_TOKEN;
         const headers: Record<string, string> = {};
         if (token) headers['Authorization'] = `Bearer ${token}`;
         const r = await fetch(`http://127.0.0.1:${port}/api/bittensor/subnets`, { headers });
         if (!r.ok) {
-          console.log(`\nGateway returned ${r.status}. Is Clodds running? (clodds start)\n`);
+          console.log(`\nGateway returned ${r.status}. Is RachelBot running? (rachelbot start)\n`);
           return;
         }
         const body = await r.json() as { ok: boolean; data?: Array<{ netuid: number; name: string; minerCount: number; registrationCost: number }> };
@@ -3325,7 +3325,7 @@ export function createBittensorCommands(program: Command): void {
         if (data.length > 30) console.log(`  ... and ${data.length - 30} more`);
         console.log('');
       } catch {
-        console.log('\nCould not reach gateway. Is Clodds running? (clodds start)\n');
+        console.log('\nCould not reach gateway. Is RachelBot running? (rachelbot start)\n');
       }
     });
 
@@ -3366,7 +3366,7 @@ export function createBittensorCommands(program: Command): void {
       }
 
       // Config
-      const configPath = join(homedir(), '.clodds', 'clodds.json');
+      const configPath = join(homedir(), '.rachelbot', 'rachelbot.json');
       if (existsSync(configPath)) {
         try {
           const cfg = JSON.parse(readFileSync(configPath, 'utf-8'));
@@ -3378,7 +3378,7 @@ export function createBittensorCommands(program: Command): void {
         console.log('  Config:       not found');
       }
 
-      console.log('\nIf anything is missing, run: clodds bittensor setup\n');
+      console.log('\nIf anything is missing, run: rachelbot bittensor setup\n');
     });
 }
 
@@ -3393,21 +3393,21 @@ export function createDoctorCommand(program: Command): void {
     .option('--verbose', 'Show detailed output')
     .action(async (options: { verbose?: boolean }) => {
       const verbose = !!options.verbose;
-      console.log('\n=== Clodds System Doctor ===\n');
+      console.log('\n=== RachelBot System Doctor ===\n');
 
       type CheckResult = { name: string; status: 'pass' | 'warn' | 'fail'; message: string; fix?: string };
       const results: CheckResult[] = [];
 
       // ── 1. Core: Config + DB ─────────────────────────────────────────────
       console.log('Checking core...');
-      const configPath = join(homedir(), '.clodds', 'clodds.json');
+      const configPath = join(homedir(), '.rachelbot', 'rachelbot.json');
       if (existsSync(configPath)) {
         results.push({ name: 'Config file', status: 'pass', message: configPath });
       } else {
-        results.push({ name: 'Config file', status: 'warn', message: 'Not found', fix: 'Run: clodds onboard' });
+        results.push({ name: 'Config file', status: 'warn', message: 'Not found', fix: 'Run: rachelbot onboard' });
       }
 
-      const envPath = join(homedir(), '.clodds', '.env');
+      const envPath = join(homedir(), '.rachelbot', '.env');
       if (existsSync(envPath)) {
         results.push({ name: '.env file', status: 'pass', message: envPath });
       } else {
@@ -3540,7 +3540,7 @@ export function createDoctorCommand(program: Command): void {
       if (existsSync(waDir)) {
         results.push({ name: 'WhatsApp', status: 'pass', message: `Auth at ${waDir}` });
       } else if (verbose) {
-        results.push({ name: 'WhatsApp', status: 'warn', message: 'No auth session', fix: 'Run: clodds whatsapp setup' });
+        results.push({ name: 'WhatsApp', status: 'warn', message: 'No auth session', fix: 'Run: rachelbot whatsapp setup' });
       }
 
       // ── 4. Trading Platforms ─────────────────────────────────────────────
@@ -3610,7 +3610,7 @@ export function createDoctorCommand(program: Command): void {
           if (hasBtcli(py)) {
             results.push({ name: 'btcli', status: 'pass', message: 'Installed' });
           } else {
-            results.push({ name: 'btcli', status: 'fail', message: 'Not installed', fix: 'Run: clodds bittensor setup' });
+            results.push({ name: 'btcli', status: 'fail', message: 'Not installed', fix: 'Run: rachelbot bittensor setup' });
           }
         } else {
           results.push({ name: 'Python', status: 'fail', message: 'Not found', fix: 'Install Python 3' });
@@ -3621,7 +3621,7 @@ export function createDoctorCommand(program: Command): void {
           name: 'Bittensor wallet',
           status: existsSync(walletDir) ? 'pass' : 'fail',
           message: existsSync(walletDir) ? walletDir : 'Not found',
-          fix: existsSync(walletDir) ? undefined : 'Run: clodds bittensor setup',
+          fix: existsSync(walletDir) ? undefined : 'Run: rachelbot bittensor setup',
         });
       } else if (verbose) {
         results.push({ name: 'Bittensor', status: 'warn', message: 'Not enabled' });
@@ -3667,7 +3667,7 @@ export function createDoctorCommand(program: Command): void {
       console.log(`\n  ${passed} passed, ${warned} warnings, ${failed} failed`);
 
       if (failed > 0) {
-        console.log('\n  Fix the failures above and run `clodds doctor` again.');
+        console.log('\n  Fix the failures above and run `rachelbot doctor` again.');
         process.exitCode = 1;
       } else if (warned > 0) {
         console.log('\n  Warnings are optional — fix them if you need those features.');
@@ -3675,7 +3675,7 @@ export function createDoctorCommand(program: Command): void {
         console.log('\n  Everything looks good!');
       }
 
-      console.log(`\n  Tip: Run \`clodds doctor --verbose\` to see all features and optional services.\n`);
+      console.log(`\n  Tip: Run \`rachelbot doctor --verbose\` to see all features and optional services.\n`);
     });
 }
 
@@ -3707,9 +3707,9 @@ export function createOnboardCommand(program: Command): void {
       const magenta = (s: string) => `\x1b[35m${s}\x1b[0m`;
       const bgCyan = (s: string) => `\x1b[46m\x1b[30m${s}\x1b[0m`;
 
-      const cloddsDir = join(homedir(), '.clodds');
-      const envPath = join(cloddsDir, '.env');
-      const configPath = join(cloddsDir, 'clodds.json');
+      const rachelbotDir = join(homedir(), '.rachelbot');
+      const envPath = join(rachelbotDir, '.env');
+      const configPath = join(rachelbotDir, 'rachelbot.json');
 
       // Track what we'll write
       const envVars: Record<string, string> = {};
@@ -3737,7 +3737,7 @@ export function createOnboardCommand(program: Command): void {
       // WELCOME
       // ═══════════════════════════════════════════════════════════════════
       const figlet = await import('figlet');
-      const banner = figlet.default.textSync('Clodds', { font: 'ANSI Shadow' });
+      const banner = figlet.default.textSync('RachelBot', { font: 'ANSI Shadow' });
       console.log('');
       console.log(`              ${cyan('\u2584\u2584\u2588\u2588\u2588\u2588\u2588\u2588\u2584\u2584')}`);
       console.log(`            ${cyan('\u2584\u2588\u2588')}${magenta('\u2580')}      ${magenta('\u2580')}${cyan('\u2588\u2588\u2584')}`);
@@ -3774,7 +3774,7 @@ export function createOnboardCommand(program: Command): void {
         if (!apiKey || apiKey.length < 10) {
           console.log('');
           console.log(`  ${red('No key provided.')} Add it later:`);
-          console.log(`  ${dim('echo "ANTHROPIC_API_KEY=sk-ant-..." >> ~/.clodds/.env')}`);
+          console.log(`  ${dim('echo "ANTHROPIC_API_KEY=sk-ant-..." >> ~/.rachelbot/.env')}`);
           console.log('');
           rl.close();
           return;
@@ -3871,7 +3871,7 @@ export function createOnboardCommand(program: Command): void {
             console.log(`\r  ${yellow('Offline')} — skipped validation       `);
           }
         } else {
-          console.log(`  ${dim('Skipped. Add later: TELEGRAM_BOT_TOKEN=... in ~/.clodds/.env')}`);
+          console.log(`  ${dim('Skipped. Add later: TELEGRAM_BOT_TOKEN=... in ~/.rachelbot/.env')}`);
         }
 
       } else if (channelChoice === 'discord') {
@@ -3896,7 +3896,7 @@ export function createOnboardCommand(program: Command): void {
           configObj.channels = { ...(configObj.channels as object || {}), discord: { enabled: true } };
           console.log(`  ${green('Discord configured')}`);
         } else {
-          console.log(`  ${dim('Skipped. Add later: DISCORD_BOT_TOKEN=... in ~/.clodds/.env')}`);
+          console.log(`  ${dim('Skipped. Add later: DISCORD_BOT_TOKEN=... in ~/.rachelbot/.env')}`);
         }
 
       } else if (channelChoice === 'slack') {
@@ -3919,7 +3919,7 @@ export function createOnboardCommand(program: Command): void {
           configObj.channels = { ...(configObj.channels as object || {}), slack: { enabled: true } };
           console.log(`  ${green('Slack configured')}`);
         } else {
-          console.log(`  ${dim('Incomplete. Add tokens later in ~/.clodds/.env')}`);
+          console.log(`  ${dim('Incomplete. Add tokens later in ~/.rachelbot/.env')}`);
         }
 
       } else {
@@ -3932,14 +3932,14 @@ export function createOnboardCommand(program: Command): void {
       // ═══════════════════════════════════════════════════════════════════
       console.log(`  ${bgCyan(' 4 ')} ${bold('Saving')}`);
 
-      if (!existsSync(cloddsDir)) {
-        mkdirSync(cloddsDir, { recursive: true });
+      if (!existsSync(rachelbotDir)) {
+        mkdirSync(rachelbotDir, { recursive: true });
       }
 
       // Auto-generate credential encryption key if not set
-      if (!envVars.CLODDS_CREDENTIAL_KEY && !process.env.CLODDS_CREDENTIAL_KEY) {
+      if (!envVars.RACHELBOT_CREDENTIAL_KEY && !process.env.RACHELBOT_CREDENTIAL_KEY) {
         const { randomBytes } = await import('crypto');
-        envVars.CLODDS_CREDENTIAL_KEY = randomBytes(32).toString('hex');
+        envVars.RACHELBOT_CREDENTIAL_KEY = randomBytes(32).toString('hex');
       }
 
       // Write .env
@@ -3964,13 +3964,13 @@ export function createOnboardCommand(program: Command): void {
       console.log(`  ${green(bold('Setup complete.'))}  Everything you need is ready.`);
       console.log('');
       console.log(`  ${dim('Quick reference:')}`);
-      console.log(`    ${bold('clodds start')}     ${dim('launch the gateway')}`);
-      console.log(`    ${bold('clodds doctor')}    ${dim('run diagnostics')}`);
-      console.log(`    ${bold('clodds repl')}      ${dim('local test shell')}`);
+      console.log(`    ${bold('rachelbot start')}     ${dim('launch the gateway')}`);
+      console.log(`    ${bold('rachelbot doctor')}    ${dim('run diagnostics')}`);
+      console.log(`    ${bold('rachelbot repl')}      ${dim('local test shell')}`);
       console.log('');
       const { networkInterfaces } = await import('os');
       const getHost = (): string => {
-        if (process.env.CLODDS_PUBLIC_HOST) return process.env.CLODDS_PUBLIC_HOST;
+        if (process.env.RACHELBOT_PUBLIC_HOST) return process.env.RACHELBOT_PUBLIC_HOST;
         const nets = networkInterfaces();
         for (const iface of Object.values(nets)) {
           for (const cfg of iface || []) {
@@ -3991,7 +3991,7 @@ export function createOnboardCommand(program: Command): void {
       console.log('');
 
       if (options.start !== false) {
-        const startNow = await ask(`  ${bold('Start Clodds now?')} ${dim('[Y/n]')} `);
+        const startNow = await ask(`  ${bold('Start RachelBot now?')} ${dim('[Y/n]')} `);
         rl.close();
 
         if (!startNow || startNow.toLowerCase() === 'y' || startNow.toLowerCase() === 'yes') {
@@ -4015,7 +4015,7 @@ export function createOnboardCommand(program: Command): void {
           const { logger: rootLog } = await import('../../utils/logger.js');
           (rootLog as any).level = 'info';
 
-          console.log(`\r  ${green(bold('Clodds is running'))}                `);
+          console.log(`\r  ${green(bold('RachelBot is running'))}                `);
           console.log('');
           console.log(`  ${cyan(`http://${webHost}:${config.gateway.port}/webchat`)}`);
           console.log(`  ${dim('Press Ctrl+C to stop')}`);

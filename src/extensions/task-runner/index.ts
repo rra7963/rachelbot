@@ -422,7 +422,7 @@ export class TaskRunner {
     this.results = new Map();
     this.variables = {};
     this.runningTasks = new Set();
-    this.stateDir = config.stateDir || path.join(process.env.HOME || '', '.clodds', 'task-runner');
+    this.stateDir = config.stateDir || path.join(process.env.HOME || '', '.rachelbot', 'task-runner');
 
     if (!fs.existsSync(this.stateDir)) {
       fs.mkdirSync(this.stateDir, { recursive: true });

@@ -191,7 +191,7 @@ export function createNodesTool(): NodesTool {
     reject: (error: Error) => void;
     timeout: ReturnType<typeof setTimeout>;
   }>();
-  const stateDir = join(homedir(), '.clodds');
+  const stateDir = join(homedir(), '.rachelbot');
   const knownNodesPath = join(stateDir, 'nodes.json');
   const knownNodes = new Map<string, KnownNodeRecord>();
 

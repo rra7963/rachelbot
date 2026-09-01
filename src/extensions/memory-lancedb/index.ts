@@ -83,7 +83,7 @@ interface LanceDB {
 }
 
 export async function createLanceDBExtension(config: LanceDBConfig): Promise<LanceDBExtension> {
-  const dbPath = config.dbPath || path.join(process.env.HOME || '.', '.clodds', 'memory.lance');
+  const dbPath = config.dbPath || path.join(process.env.HOME || '.', '.rachelbot', 'memory.lance');
   const tableName = config.tableName || 'memories';
   const dimensions = config.dimensions ?? (config.embeddingModel === 'local' ? 384 : 1536);
 

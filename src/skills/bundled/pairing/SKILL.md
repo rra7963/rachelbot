@@ -6,7 +6,7 @@ emoji: "🔗"
 
 # Pairing - Complete API Reference
 
-Pair new users to Clodds, manage trust levels, and control access across channels.
+Pair new users to RachelBot, manage trust levels, and control access across channels.
 
 ---
 
@@ -45,7 +45,7 @@ Pair new users to Clodds, manage trust levels, and control access across channel
 ### Create Pairing Service
 
 ```typescript
-import { createPairingService } from 'clodds/pairing';
+import { createPairingService } from 'rachelbot/pairing';
 
 const pairing = createPairingService({
   // Code settings
@@ -126,7 +126,7 @@ const isPaired = await pairing.isPaired({
 });
 
 if (isPaired) {
-  console.log('User is paired and can use Clodds');
+  console.log('User is paired and can use RachelBot');
 }
 ```
 
@@ -249,19 +249,19 @@ await pairing.removePairing({
 
 ```bash
 # List pending pairing requests
-clodds pairing list telegram
+rachelbot pairing list telegram
 
 # Approve a request
-clodds pairing approve ABC234XY
+rachelbot pairing approve ABC234XY
 
 # List paired users
-clodds pairing users telegram
+rachelbot pairing users telegram
 
 # Add user directly (bypass code)
-clodds pairing add telegram user-123
+rachelbot pairing add telegram user-123
 
 # Remove user
-clodds pairing remove telegram user-123
+rachelbot pairing remove telegram user-123
 ```
 
 ---

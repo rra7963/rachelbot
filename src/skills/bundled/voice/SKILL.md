@@ -23,7 +23,7 @@ Voice-controlled interface with wake word detection, speech-to-text, and text-to
 /voice start                                Start voice listening
 /voice stop                                 Stop voice listening
 /voice status                               Check voice status
-/voice wake "hey clodds"                    Set wake word
+/voice wake "hey rachelbot"                    Set wake word
 ```
 
 ### Settings
@@ -42,11 +42,11 @@ Voice-controlled interface with wake word detection, speech-to-text, and text-to
 ### Create Voice Assistant
 
 ```typescript
-import { createVoiceAssistant } from 'clodds/voice';
+import { createVoiceAssistant } from 'rachelbot/voice';
 
 const voice = createVoiceAssistant({
   // Wake word
-  wakeWord: 'hey clodds',
+  wakeWord: 'hey rachelbot',
   wakeWordSensitivity: 0.5,  // 0-1
 
   // Speech-to-text
@@ -169,9 +169,9 @@ vad.on('speechEnd', (audio) => {
 | `sensitivity` | 0.0 - 1.0 | Detection threshold |
 
 **Built-in wake words:**
-- "hey clodds"
-- "okay clodds"
-- "clodds"
+- "hey rachelbot"
+- "okay rachelbot"
+- "rachelbot"
 
 ---
 
@@ -200,10 +200,10 @@ vad.on('speechEnd', (audio) => {
 Once voice is active, speak naturally:
 
 ```
-"Hey Clodds, what's my portfolio value?"
-"Hey Clodds, buy 100 dollars of Trump YES"
-"Hey Clodds, what are the top arbitrage opportunities?"
-"Hey Clodds, set a price alert for Bitcoin at 100k"
+"Hey RachelBot, what's my portfolio value?"
+"Hey RachelBot, buy 100 dollars of Trump YES"
+"Hey RachelBot, what are the top arbitrage opportunities?"
+"Hey RachelBot, set a price alert for Bitcoin at 100k"
 ```
 
 ---

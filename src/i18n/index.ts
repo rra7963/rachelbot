@@ -1,15 +1,15 @@
 /**
- * Clodds i18n - Lightweight internationalization
+ * RachelBot i18n - Lightweight internationalization
  *
  * Usage:
  *   import { t, setLocale, getLocale } from './i18n';
  *
- *   t('welcome');                    // "Welcome to Clodds"
+ *   t('welcome');                    // "Welcome to RachelBot"
  *   t('greeting', { name: 'Alex' }); // "Hello, Alex!"
  *   t('errors.notFound');            // Nested keys supported
  *
  * Configuration:
- *   - Environment: CLODDS_LOCALE=zh
+ *   - Environment: RACHELBOT_LOCALE=zh
  *   - Config: { "locale": "zh" }
  *   - Runtime: setLocale('zh')
  *
@@ -165,7 +165,7 @@ export function getSupportedLocales(): Array<{ code: Locale; name: string; nativ
 export function initI18n(config?: { locale?: string }): void {
   // Priority: config > env > default
   const locale = config?.locale
-    || process.env.CLODDS_LOCALE
+    || process.env.RACHELBOT_LOCALE
     || process.env.LANG?.split('.')[0]?.split('_')[0]
     || DEFAULT_LOCALE;
 

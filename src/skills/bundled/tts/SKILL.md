@@ -48,7 +48,7 @@ Convert text to natural-sounding speech using ElevenLabs, macOS say, or espeak.
 ### Create TTS Service
 
 ```typescript
-import { createTTSService } from 'clodds/tts';
+import { createTTSService } from 'rachelbot/tts';
 
 const tts = createTTSService({
   provider: 'elevenlabs',

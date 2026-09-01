@@ -45,7 +45,7 @@ export class QwenAuthClient {
   constructor(config: QwenConfig = {}) {
     this.config = config;
     this.credStorePath = config.tokenStorePath ||
-      path.join(process.env.HOME || '', '.clodds', 'tokens', 'qwen.json');
+      path.join(process.env.HOME || '', '.rachelbot', 'tokens', 'qwen.json');
     this.loadCredentials();
   }
 

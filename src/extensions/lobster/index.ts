@@ -101,7 +101,7 @@ export async function createLobsterExtension(config: LobsterConfig): Promise<Lob
 
     const headers: Record<string, string> = {
       Accept: 'application/json',
-      'User-Agent': 'Clodds/1.0 (prediction market assistant)',
+      'User-Agent': 'RachelBot/1.0 (prediction market assistant)',
     };
 
     if (config.userToken) {

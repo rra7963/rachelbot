@@ -253,7 +253,7 @@ export function createWebFetchTool(): WebFetchTool {
         const response = await fetch(fetchUrl, {
           signal: controller.signal,
           headers: {
-            'User-Agent': 'Clodds/1.0 (Web Fetch Tool)',
+            'User-Agent': 'RachelBot/1.0 (Web Fetch Tool)',
             Accept: 'text/markdown,text/html,application/xhtml+xml,text/plain,*/*',
           },
         });

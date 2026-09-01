@@ -110,7 +110,7 @@ export async function runOnboard(): Promise<void> {
     output: process.stdout,
   });
 
-  console.log('\n\x1b[1m🎯 Welcome to Clodds Setup!\x1b[0m\n');
+  console.log('\n\x1b[1m🎯 Welcome to RachelBot Setup!\x1b[0m\n');
   console.log("Let's get you set up with your prediction markets assistant.\n");
   console.log('\x1b[90mThis wizard will:\x1b[0m');
   console.log('  1. Set up your Claude API key (required)');
@@ -280,7 +280,7 @@ export async function runOnboard(): Promise<void> {
   console.log('\n');
   const spin = spinner('Saving configuration...');
 
-  const configDir = path.join(process.env.HOME || '', '.clodds');
+  const configDir = path.join(process.env.HOME || '', '.rachelbot');
   const configPath = path.join(configDir, 'config.json');
 
   if (!fs.existsSync(configDir)) {
@@ -300,14 +300,14 @@ export async function runOnboard(): Promise<void> {
   const { randomBytes } = await import('crypto');
   const envPath = path.join(configDir, '.env');
 
-  // Preserve existing CLODDS_CREDENTIAL_KEY if .env already exists (don't invalidate stored creds)
+  // Preserve existing RACHELBOT_CREDENTIAL_KEY if .env already exists (don't invalidate stored creds)
   let existingCredKey = '';
   if (fs.existsSync(envPath)) {
     const existing = fs.readFileSync(envPath, 'utf-8');
-    const match = existing.match(/^CLODDS_CREDENTIAL_KEY=(.+)$/m);
+    const match = existing.match(/^RACHELBOT_CREDENTIAL_KEY=(.+)$/m);
     if (match) existingCredKey = match[1];
   }
-  envLines.push(`CLODDS_CREDENTIAL_KEY=${existingCredKey || randomBytes(32).toString('hex')}`);
+  envLines.push(`RACHELBOT_CREDENTIAL_KEY=${existingCredKey || randomBytes(32).toString('hex')}`);
 
   fs.writeFileSync(envPath, envLines.join('\n') + '\n', { mode: 0o600 });
 
@@ -337,7 +337,7 @@ export async function runOnboard(): Promise<void> {
   console.log('\n\x1b[1mNext steps:\x1b[0m');
   console.log('\n   1. Copy the .env file to your project:');
   console.log(`      \x1b[36mcp ${envPath} ./.env\x1b[0m`);
-  console.log('\n   2. Start Clodds:');
+  console.log('\n   2. Start RachelBot:');
   console.log('      \x1b[36mnpm start\x1b[0m');
   console.log('\n   3. Open WebChat:');
   console.log('      \x1b[36mhttp://localhost:18789/webchat\x1b[0m\n');

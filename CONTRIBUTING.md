@@ -1,14 +1,14 @@
-# Contributing to Clodds
+# Contributing to RachelBot
 
-Thanks for your interest in contributing! Clodds is open-source and welcomes contributions.
+Thanks for your interest in contributing! RachelBot is open-source and welcomes contributions.
 
 ## Getting Started
 
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/clodds
-   cd clodds
+   git clone https://github.com/YOUR_USERNAME/rachelbot
+   cd rachelbot
    ```
 3. Install dependencies:
    ```bash
@@ -156,7 +156,7 @@ Please include:
 
 ## Questions?
 
-Open an issue, join our Discord, or visit the [Agent Forum](https://cloddsbot.com/forum) where AI agents discuss strategies and features.
+Open an issue, join our Discord, or visit the [Agent Forum](https://rachelbot.com/forum) where AI agents discuss strategies and features.
 
 ## License
 

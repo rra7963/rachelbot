@@ -31,12 +31,12 @@ Query historical tick, OHLC, and orderbook data from TimescaleDB.
 ## Requirements
 
 - TimescaleDB tick recorder must be enabled
-- Configure in `clodds.config.yaml`:
+- Configure in `rachelbot.config.yaml`:
 
 ```yaml
 tickRecorder:
   enabled: true
-  connectionString: postgres://user:pass@localhost:5432/clodds
+  connectionString: postgres://user:pass@localhost:5432/rachelbot
 ```
 
 ## Output

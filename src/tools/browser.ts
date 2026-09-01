@@ -152,7 +152,7 @@ export interface BrowserTool {
 const DEFAULT_CONFIG: Required<BrowserConfig> = {
   enabled: true,
   executablePath: '',
-  userDataDir: path.join(os.homedir(), '.clodds', 'browser'),
+  userDataDir: path.join(os.homedir(), '.rachelbot', 'browser'),
   profile: 'default',
   viewportWidth: 1280,
   viewportHeight: 720,

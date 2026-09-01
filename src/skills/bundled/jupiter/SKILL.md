@@ -127,7 +127,7 @@ import {
   getJupiterDCA,
   getJupiterDCABalance,
   getJupiterDCAFillHistory,
-} from 'clodds/solana/jupiter';
+} from 'rachelbot/solana/jupiter';
 
 // Swap example
 const swap = await executeJupiterSwap(connection, keypair, {

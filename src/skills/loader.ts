@@ -1,7 +1,7 @@
 /**
  * Skill Loader
  * Parses SKILL.md files with YAML frontmatter and loads them for the agent.
- * Supports both Clodds-native and OpenClaw-format SKILL.md files.
+ * Supports both RachelBot-native and OpenClaw-format SKILL.md files.
  *
  * Features:
  * - YAML frontmatter parsing (shared parser)
@@ -271,7 +271,7 @@ export function loadSkill(skillPath: string, configKeys?: Record<string, unknown
     // Resolve OpenClaw metadata block
     const ocMeta = resolveMetadata(frontmatter);
 
-    // Merge gates: Clodds native gates + OpenClaw requires
+    // Merge gates: RachelBot native gates + OpenClaw requires
     const gates = mergeGates(frontmatter.gates, ocMeta?.requires);
 
     // Merge OS from frontmatter gates and OpenClaw metadata
@@ -473,7 +473,7 @@ export function createSkillManager(workspacePath?: string, config?: SkillManager
     }
 
     // 3. Load managed skills (medium priority)
-    const managedDir = path.join(process.cwd(), '.clodds', 'skills');
+    const managedDir = path.join(process.cwd(), '.rachelbot', 'skills');
     const managedSkills = loadDirCached(managedDir, loaderOpts);
     for (const skill of managedSkills) {
       skillsMap.set(skill.name, skill);
@@ -521,7 +521,7 @@ export function createSkillManager(workspacePath?: string, config?: SkillManager
     const debounceMs = config?.watchDebounceMs ?? 500;
     const dirs = [
       path.join(__dirname, 'bundled'),
-      path.join(process.cwd(), '.clodds', 'skills'),
+      path.join(process.cwd(), '.rachelbot', 'skills'),
       ...(config?.extraDirs || []),
     ];
     if (workspacePath) {

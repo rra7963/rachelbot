@@ -21,7 +21,7 @@ import type { IncomingMessage } from '../types';
 // CONSTANTS
 // =============================================================================
 
-const RULES_FILE = join(homedir(), '.clodds', 'auto-reply-rules.json');
+const RULES_FILE = join(homedir(), '.rachelbot', 'auto-reply-rules.json');
 
 // =============================================================================
 // TYPES

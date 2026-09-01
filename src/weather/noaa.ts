@@ -128,7 +128,7 @@ export const CITY_COORDINATES: Record<string, { lat: number; lon: number; name: 
 };
 
 const NOAA_BASE_URL = 'https://api.weather.gov';
-const USER_AGENT = 'Clodds-Weather/1.0 (contact@clodds.ai)';
+const USER_AGENT = 'RachelBot-Weather/1.0 (contact@rachelbot.ai)';
 
 // ============================================================================
 // NOAA API Client

@@ -429,7 +429,7 @@ export function createBrowserService(): BrowserService {
       debuggingPort = 9222 + Math.floor(Math.random() * 100);
 
       // User data dir for profile persistence
-      const userDataDir = options.userDataDir || join(homedir(), '.clodds', 'browser-profile');
+      const userDataDir = options.userDataDir || join(homedir(), '.rachelbot', 'browser-profile');
       if (!existsSync(userDataDir)) {
         mkdirSync(userDataDir, { recursive: true });
       }

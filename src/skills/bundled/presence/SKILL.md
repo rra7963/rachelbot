@@ -44,7 +44,7 @@ Manage online status, track activity across devices, and sync presence informati
 ### Create Presence Service
 
 ```typescript
-import { createPresenceService } from 'clodds/presence';
+import { createPresenceService } from 'rachelbot/presence';
 
 const presence = createPresenceService({
   // Update interval

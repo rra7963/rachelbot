@@ -25,7 +25,7 @@ import { logger } from '../utils/logger';
 // CONSTANTS
 // =============================================================================
 
-const MEDIA_DIR = join(homedir(), '.clodds', 'media');
+const MEDIA_DIR = join(homedir(), '.rachelbot', 'media');
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB default
 const DEFAULT_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
@@ -421,7 +421,7 @@ const execFileAsync = promisify(execFile);
 
 const DEFAULT_TRANSCRIBE_TIMEOUT_MS = 60_000;
 const DEFAULT_TRANSCRIBE_MAX_BYTES = 25 * 1024 * 1024; // 25MB
-const DEFAULT_OPENAI_MODEL = process.env.CLODDS_TRANSCRIBE_MODEL?.trim() || 'gpt-4o-mini-transcribe';
+const DEFAULT_OPENAI_MODEL = process.env.RACHELBOT_TRANSCRIBE_MODEL?.trim() || 'gpt-4o-mini-transcribe';
 const OPENAI_TRANSCRIBE_URL = 'https://api.openai.com/v1/audio/transcriptions';
 
 const SUPPORTED_AUDIO_EXTENSIONS = new Set([
@@ -476,7 +476,7 @@ function validateAudioFile(audioPath: string, options?: TranscriptionOptions): v
   }
 
   const stats = statSync(audioPath);
-  const envMaxBytes = Number(process.env.CLODDS_TRANSCRIBE_MAX_BYTES ?? 0);
+  const envMaxBytes = Number(process.env.RACHELBOT_TRANSCRIBE_MAX_BYTES ?? 0);
   const maxBytes =
     options?.maxBytes ??
     (envMaxBytes > 0 ? envMaxBytes : DEFAULT_TRANSCRIBE_MAX_BYTES);
@@ -491,7 +491,7 @@ function validateAudioFile(audioPath: string, options?: TranscriptionOptions): v
 }
 
 function pickEngine(options?: TranscriptionOptions): 'openai' | 'whisper' | 'vosk' | null {
-  const requested = options?.engine || (process.env.CLODDS_STT_ENGINE as TranscriptionOptions['engine'] | undefined);
+  const requested = options?.engine || (process.env.RACHELBOT_STT_ENGINE as TranscriptionOptions['engine'] | undefined);
   const openaiAvailable = Boolean(process.env.OPENAI_API_KEY);
   const whisperAvailable = commandExists('whisper');
   const voskAvailable = commandExists('vosk-transcriber');
@@ -571,7 +571,7 @@ async function transcribeWithOpenAI(audioPath: string, options: TranscriptionOpt
 
 async function transcribeWithWhisperCli(audioPath: string, options: TranscriptionOptions, startedAt: number): Promise<TranscriptionResult> {
   const language = normalizeLanguage(options.language) || 'en';
-  const outputDir = mkdtempSync(join(tmpdir(), 'clodds-whisper-'));
+  const outputDir = mkdtempSync(join(tmpdir(), 'rachelbot-whisper-'));
   const base = basename(audioPath, extname(audioPath));
   const timeoutMs = options.timeoutMs ?? DEFAULT_TRANSCRIBE_TIMEOUT_MS;
   const whisperCmd = resolveCommand('whisper');

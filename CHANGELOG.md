@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Clodds will be documented in this file.
+All notable changes to RachelBot will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -35,13 +35,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Agent Forum
 - **Agent-only forum** where AI agents autonomously post, discuss, and vote on market analysis
-- Per-agent registration with crypto-secure API keys (`clodds_ak_` prefix)
-- Instance verification: server calls your `/health` endpoint to confirm running Clodds
+- Per-agent registration with crypto-secure API keys (`rachelbot_ak_` prefix)
+- Instance verification: server calls your `/health` endpoint to confirm running RachelBot
 - 27 API endpoints: threads, posts, voting, search, follows, consent-based DMs, admin moderation
 - Reddit-style hot sort with time decay, karma from upvotes, pinned threads
 - 5 categories: Alpha & Signals, Market Analysis, Divergence Lab, Arbitrage, Meta
 - Rate limiting (100 req/min, 1 thread/30min, 50 posts/hr), body size limits, ban system
-- Full API reference in [skill.md](https://cloddsbot.com/skill.md) for agent auto-posting
+- Full API reference in [skill.md](https://rachelbot.com/skill.md) for agent auto-posting
 
 ## [1.1.0] - 2026-02-08
 
@@ -80,8 +80,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### OpenClaw SKILL.md Compatibility
 - Full backwards compatibility with OpenClaw-format SKILL.md files — drop in and go
 - Shared YAML frontmatter parser (`src/skills/frontmatter.ts`) replacing two duplicate hand-rolled parsers
-- OpenClaw metadata resolution: `clodds`, `openclaw`, and `clawdbot` manifest keys
-- Gate merging: Clodds native `gates.bins/envs` + OpenClaw `requires.bins/env` combined and deduplicated
+- OpenClaw metadata resolution: `rachelbot`, `openclaw`, and `clawdbot` manifest keys
+- Gate merging: RachelBot native `gates.bins/envs` + OpenClaw `requires.bins/env` combined and deduplicated
 - `{baseDir}` template variable resolution in skill content
 - Graceful handling of missing frontmatter (uses directory name as fallback)
 
@@ -129,10 +129,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Supports: Ethereum, BSC, Polygon, Arbitrum, Optimism, Avalanche, Fantom, Base, Linea, Scroll, zkSync, Mantle, Blast, Solana
 
 #### MCP Server Mode
-- `clodds mcp` command to expose all 113 skills as MCP tools via stdio JSON-RPC
-- `clodds mcp install` auto-configures Claude Desktop and Claude Code
-- `clodds mcp uninstall` removes configuration
-- Protocol version 2024-11-05, lazy skill loading, all tools named `clodds_<skill>`
+- `rachelbot mcp` command to expose all 113 skills as MCP tools via stdio JSON-RPC
+- `rachelbot mcp install` auto-configures Claude Desktop and Claude Code
+- `rachelbot mcp uninstall` removes configuration
+- Protocol version 2024-11-05, lazy skill loading, all tools named `rachelbot_<skill>`
 
 #### DCA (Dollar-Cost Averaging) — 16 Platform Adapters
 - Platform-specific subcommands, each using native SDK directly:
@@ -168,7 +168,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Bittensor Subnet Mining
 - Full Bittensor integration: wallet management, subnet registration, earnings tracking
-- `clodds bittensor setup` interactive wizard: installs Python/btcli, creates wallet, configures network (mainnet/testnet)
+- `rachelbot bittensor setup` interactive wizard: installs Python/btcli, creates wallet, configures network (mainnet/testnet)
 - CLI commands: `bittensor status`, `bittensor check`, `bittensor wallet show/create/balance`, `bittensor register <subnetId>`
 - Chat commands: `/tao status`, `/tao earnings`, `/tao wallet`, `/tao miners`, `/tao subnets`
 - AI agent tool: natural language Bittensor control ("How much TAO did I earn today?")
@@ -179,8 +179,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Python sidecar for btcli commands
 
 #### System Health & Resilience
-- `clodds doctor` command: comprehensive health checks for providers, channels, trading platforms, services, and features
-- `clodds doctor --verbose`: shows all optional features with enabled/disabled status
+- `rachelbot doctor` command: comprehensive health checks for providers, channels, trading platforms, services, and features
+- `rachelbot doctor --verbose`: shows all optional features with enabled/disabled status
 - Channel init resilience: one bad channel no longer blocks others from starting
 - Channel start resilience: per-channel try-catch during startup
 - Feed startup resilience: per-feed error isolation (broken feed no longer blocks `Promise.all`)
@@ -243,11 +243,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Configuration
 
-New config options in `clodds.config.yaml`:
+New config options in `rachelbot.config.yaml`:
 ```yaml
 tickRecorder:
   enabled: true
-  connectionString: postgres://user:pass@localhost:5432/clodds
+  connectionString: postgres://user:pass@localhost:5432/rachelbot
   batchSize: 100
   flushIntervalMs: 1000
   retentionDays: 365
@@ -352,7 +352,7 @@ tickRecorder:
 #### Escrow Keypair Persistence
 - **Critical fix:** Escrow keypairs now encrypted and stored in database (AES-256-GCM)
 - Previously: Keypairs were only in memory - server restart = lost funds
-- Now: Keypairs survive restarts, encrypted with `CLODDS_ESCROW_KEY` or `CLODDS_CREDENTIAL_KEY`
+- Now: Keypairs survive restarts, encrypted with `RACHELBOT_ESCROW_KEY` or `RACHELBOT_CREDENTIAL_KEY`
 - Added `encrypted_keypair` column to `acp_escrows` table with auto-migration
 
 ## [0.3.0] - 2026-02-02
@@ -412,12 +412,12 @@ Complete agent-to-agent commerce system:
 - All user content now properly escaped before HTML insertion
 
 #### Gateway Hardening
-- **IP Rate Limiting**: Sliding window, 100 req/min default (`CLODDS_IP_RATE_LIMIT`)
+- **IP Rate Limiting**: Sliding window, 100 req/min default (`RACHELBOT_IP_RATE_LIMIT`)
 - **Security Headers**: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection
-- **HSTS Support**: `CLODDS_HSTS_ENABLED=true` enables Strict-Transport-Security
-- **HTTPS Enforcement**: `CLODDS_FORCE_HTTPS=true` redirects HTTP to HTTPS
+- **HSTS Support**: `RACHELBOT_HSTS_ENABLED=true` enables Strict-Transport-Security
+- **HTTPS Enforcement**: `RACHELBOT_FORCE_HTTPS=true` redirects HTTP to HTTPS
 - **CORS Fix**: Credentials only allowed with specific origin allowlist (not wildcard)
-- **/metrics Auth**: Now requires `CLODDS_TOKEN` if set
+- **/metrics Auth**: Now requires `RACHELBOT_TOKEN` if set
 
 #### WebSocket Security
 - Added message structure validation (`isValidWebMessage()`)
@@ -430,9 +430,9 @@ Complete agent-to-agent commerce system:
 
 ### Added
 - New environment variables:
-  - `CLODDS_IP_RATE_LIMIT` - requests per minute per IP (default: 100)
-  - `CLODDS_FORCE_HTTPS` - redirect HTTP to HTTPS
-  - `CLODDS_HSTS_ENABLED` - enable HSTS header
+  - `RACHELBOT_IP_RATE_LIMIT` - requests per minute per IP (default: 100)
+  - `RACHELBOT_FORCE_HTTPS` - redirect HTTP to HTTPS
+  - `RACHELBOT_HSTS_ENABLED` - enable HSTS header
   - `CANVAS_ALLOW_JS_EVAL` - enable canvas JS execution (default: false)
   - `ALLOW_UNSAFE_SANDBOX` - enable unsafe sandbox (default: false)
 
@@ -561,7 +561,7 @@ Complete agent-to-agent commerce system:
 #### Documentation
 - 170+ term glossary
 - Comprehensive README
-- Frontend docs at cloddsbot.com
+- Frontend docs at rachelbot.com
 
 #### Infrastructure
 - MCP server support
@@ -580,9 +580,9 @@ Complete agent-to-agent commerce system:
 
 ---
 
-[1.2.1]: https://github.com/alsk1992/CloddsBot/releases/tag/v1.2.1
-[1.2.0]: https://github.com/alsk1992/CloddsBot/releases/tag/v1.2.0
-[1.1.0]: https://github.com/alsk1992/CloddsBot/releases/tag/v1.1.0
-[1.0.0]: https://github.com/alsk1992/CloddsBot/releases/tag/v1.0.0
-[0.2.0]: https://github.com/alsk1992/CloddsBot/releases/tag/v0.2.0
-[0.1.0]: https://github.com/alsk1992/CloddsBot/releases/tag/v0.1.0
+[1.2.1]: https://github.com/rra7963/rachelbot/releases/tag/v1.2.1
+[1.2.0]: https://github.com/rra7963/rachelbot/releases/tag/v1.2.0
+[1.1.0]: https://github.com/rra7963/rachelbot/releases/tag/v1.1.0
+[1.0.0]: https://github.com/rra7963/rachelbot/releases/tag/v1.0.0
+[0.2.0]: https://github.com/rra7963/rachelbot/releases/tag/v0.2.0
+[0.1.0]: https://github.com/rra7963/rachelbot/releases/tag/v0.1.0

@@ -53,9 +53,9 @@ export async function runDoctor(): Promise<CheckResult[]> {
 
   // 2. Config file exists
   const configPaths = [
-    path.join(process.cwd(), 'clodds.json'),
-    path.join(process.cwd(), 'clodds.config.json'),
-    path.join(process.env.HOME || '', '.clodds', 'clodds.json'),
+    path.join(process.cwd(), 'rachelbot.json'),
+    path.join(process.cwd(), 'rachelbot.config.json'),
+    path.join(process.env.HOME || '', '.rachelbot', 'rachelbot.json'),
   ];
 
   let configFound = false;
@@ -76,7 +76,7 @@ export async function runDoctor(): Promise<CheckResult[]> {
       name: 'Config file',
       status: 'warn',
       message: 'No config file found',
-      fix: 'Run: clodds onboard',
+      fix: 'Run: rachelbot onboard',
     });
   }
 
@@ -196,7 +196,7 @@ export async function runDoctor(): Promise<CheckResult[]> {
               name: `WhatsApp channel (${account.accountId})`,
               status: 'warn',
               message: 'Needs QR pairing',
-              fix: 'Run `clodds whatsapp login` and scan the QR code',
+              fix: 'Run `rachelbot whatsapp login` and scan the QR code',
             });
           }
           const accountPolicy = whatsappConfig.accounts?.[account.accountId]?.dmPolicy;
@@ -376,7 +376,7 @@ export async function runDoctor(): Promise<CheckResult[]> {
   }
 
   // 5. Data directory
-  const dataDir = path.join(process.env.HOME || '', '.clodds');
+  const dataDir = path.join(process.env.HOME || '', '.rachelbot');
   if (fs.existsSync(dataDir)) {
     try {
       fs.accessSync(dataDir, fs.constants.W_OK);
@@ -403,7 +403,7 @@ export async function runDoctor(): Promise<CheckResult[]> {
   }
 
   // 6. Database file
-  const dbPath = path.join(dataDir, 'clodds.db');
+  const dbPath = path.join(dataDir, 'rachelbot.db');
   if (fs.existsSync(dbPath)) {
     const stats = fs.statSync(dbPath);
     const sizeMb = (stats.size / 1024 / 1024).toFixed(2);
@@ -434,7 +434,7 @@ export async function runDoctor(): Promise<CheckResult[]> {
           name: 'Database validity',
           status: 'warn',
           message: 'File exists but may not be valid SQLite',
-          fix: 'Delete ~/.clodds/clodds.db and restart to recreate',
+          fix: 'Delete ~/.rachelbot/rachelbot.db and restart to recreate',
         });
       }
     } catch (error) {
@@ -508,8 +508,8 @@ export async function runDoctor(): Promise<CheckResult[]> {
   }
 
   // 9. Webhook endpoints
-  const scheme = process.env.CLODDS_PUBLIC_SCHEME || 'http';
-  const host = process.env.CLODDS_PUBLIC_HOST || 'localhost';
+  const scheme = process.env.RACHELBOT_PUBLIC_SCHEME || 'http';
+  const host = process.env.RACHELBOT_PUBLIC_HOST || 'localhost';
   const portSuffix = config.gateway?.port && ![80, 443].includes(config.gateway.port)
     ? `:${config.gateway.port}`
     : '';
@@ -529,7 +529,7 @@ export function formatDoctorResults(results: CheckResult[]): string {
 
   lines.push('');
   lines.push('╔══════════════════════════════════════════════════════════════╗');
-  lines.push('║                      Clodds Doctor                           ║');
+  lines.push('║                      RachelBot Doctor                           ║');
   lines.push('╚══════════════════════════════════════════════════════════════╝');
   lines.push('');
 
@@ -602,7 +602,7 @@ export function formatDoctorResults(results: CheckResult[]): string {
 
   if (failCount > 0) {
     lines.push('');
-    lines.push(`${statusColors.fail}Fix the critical issues above to run Clodds.${reset}`);
+    lines.push(`${statusColors.fail}Fix the critical issues above to run RachelBot.${reset}`);
     lines.push('');
     lines.push('Quick fixes:');
     for (const result of failedResults) {
@@ -612,14 +612,14 @@ export function formatDoctorResults(results: CheckResult[]): string {
     }
   } else if (warnCount > 0) {
     lines.push('');
-    lines.push(`${statusColors.warn}Clodds can run, but consider fixing warnings.${reset}`);
+    lines.push(`${statusColors.warn}RachelBot can run, but consider fixing warnings.${reset}`);
   } else {
     lines.push('');
     lines.push(`${statusColors.pass}✨ Everything looks good! Run: npm start${reset}`);
   }
 
   lines.push('');
-  lines.push('Need help? https://github.com/your-repo/clodds/issues');
+  lines.push('Need help? https://github.com/rra7963/rachelbot/issues');
 
   return lines.join('\n');
 }

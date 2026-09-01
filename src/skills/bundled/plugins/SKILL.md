@@ -6,7 +6,7 @@ emoji: "🧩"
 
 # Plugins - Complete API Reference
 
-Install, manage, and configure plugins to extend Clodds functionality.
+Install, manage, and configure plugins to extend RachelBot functionality.
 
 ---
 
@@ -53,14 +53,14 @@ Install, manage, and configure plugins to extend Clodds functionality.
 ### Create Plugin Manager
 
 ```typescript
-import { createPluginManager } from 'clodds/plugins';
+import { createPluginManager } from 'rachelbot/plugins';
 
 const plugins = createPluginManager({
   // Plugin directory
   pluginDir: './plugins',
 
   // Registry URL
-  registry: 'https://plugins.clodds.ai',
+  registry: 'https://plugins.rachelbot.ai',
 
   // Auto-update
   autoUpdate: true,
@@ -135,7 +135,7 @@ await plugins.uninstall('advanced-charts');
 
 ```typescript
 // plugins/my-plugin/index.ts
-import { Plugin, PluginContext } from 'clodds/plugins';
+import { Plugin, PluginContext } from 'rachelbot/plugins';
 
 export default class MyPlugin implements Plugin {
   id = 'my-plugin';
@@ -231,7 +231,7 @@ my-plugin/
   "version": "1.0.0",
   "description": "My custom plugin",
   "main": "index.ts",
-  "clodds": {
+  "rachelbot": {
     "minVersion": "0.1.0",
     "permissions": ["network", "storage"],
     "commands": ["my-command"],

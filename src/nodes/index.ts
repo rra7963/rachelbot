@@ -15,7 +15,7 @@ import { homedir, platform } from 'os';
 import { join } from 'path';
 import { logger } from '../utils/logger';
 
-const TEMP_DIR = join(homedir(), '.clodds', 'temp');
+const TEMP_DIR = join(homedir(), '.rachelbot', 'temp');
 const os = platform();
 
 // Ensure temp directory exists

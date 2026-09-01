@@ -44,16 +44,16 @@ function readPackageVersion(): string {
 
 /** State directory for mutable data */
 export function resolveStateDir(env = process.env): string {
-  const override = env.CLODDS_STATE_DIR?.trim();
+  const override = env.RACHELBOT_STATE_DIR?.trim();
   if (override) return resolveUserPath(override);
-  return join(homedir(), '.clodds');
+  return join(homedir(), '.rachelbot');
 }
 
 /** Config file path */
 export function resolveConfigPath(env = process.env): string {
-  const override = env.CLODDS_CONFIG_PATH?.trim();
+  const override = env.RACHELBOT_CONFIG_PATH?.trim();
   if (override) return resolveUserPath(override);
-  return join(resolveStateDir(env), 'clodds.json');
+  return join(resolveStateDir(env), 'rachelbot.json');
 }
 
 /** Credentials directory */
@@ -68,9 +68,9 @@ export function resolveLogsDir(env = process.env): string {
 
 /** Workspace directory */
 export function resolveWorkspaceDir(env = process.env): string {
-  const override = env.CLODDS_WORKSPACE?.trim();
+  const override = env.RACHELBOT_WORKSPACE?.trim();
   if (override) return resolveUserPath(override);
-  return join(homedir(), 'clodds');
+  return join(homedir(), 'rachelbot');
 }
 
 export const STATE_DIR = resolveStateDir();
@@ -350,7 +350,7 @@ export interface LedgerConfig {
   anchorChain?: 'solana' | 'polygon' | 'base';
 }
 
-export interface CloddsConfig {
+export interface RachelBotConfig {
   agent?: AgentConfig;
   gateway?: GatewayConfig;
   session?: {
@@ -499,7 +499,7 @@ export interface SolanaConfig {
 // DEFAULTS
 // =============================================================================
 
-export const DEFAULT_CONFIG: CloddsConfig = {
+export const DEFAULT_CONFIG: RachelBotConfig = {
   agent: {
     model: 'claude-opus-4-6',
     maxTokens: 4096,
@@ -593,7 +593,7 @@ export const DEFAULT_CONFIG: CloddsConfig = {
     alertTargets: [],
     email: {
       enabled: false,
-      subjectPrefix: 'Clodds',
+      subjectPrefix: 'RachelBot',
     },
     providerHealth: {
       enabled: true,
@@ -650,7 +650,7 @@ function safeParseFloat(raw: string): number | undefined {
 }
 
 /** Environment variables that can be used in config */
-const ENV_MAPPINGS: Record<string, (cfg: CloddsConfig) => void> = {
+const ENV_MAPPINGS: Record<string, (cfg: RachelBotConfig) => void> = {
   ANTHROPIC_API_KEY: () => {}, // Used directly by agent
   OPENAI_API_KEY: () => {},
   ELEVENLABS_API_KEY: (cfg) => {
@@ -1000,16 +1000,16 @@ const ENV_MAPPINGS: Record<string, (cfg: CloddsConfig) => void> = {
     };
     cfg.channels.googlechat.credentials.project_id = process.env.GOOGLECHAT_PROJECT_ID || '';
   },
-  CLODDS_GATEWAY_TOKEN: (cfg) => {
+  RACHELBOT_GATEWAY_TOKEN: (cfg) => {
     if (!cfg.gateway) cfg.gateway = {};
     if (!cfg.gateway.auth) cfg.gateway.auth = {};
-    cfg.gateway.auth.token = process.env.CLODDS_GATEWAY_TOKEN;
+    cfg.gateway.auth.token = process.env.RACHELBOT_GATEWAY_TOKEN;
     cfg.gateway.auth.mode = 'token';
   },
-  CLODDS_GATEWAY_PASSWORD: (cfg) => {
+  RACHELBOT_GATEWAY_PASSWORD: (cfg) => {
     if (!cfg.gateway) cfg.gateway = {};
     if (!cfg.gateway.auth) cfg.gateway.auth = {};
-    cfg.gateway.auth.password = process.env.CLODDS_GATEWAY_PASSWORD;
+    cfg.gateway.auth.password = process.env.RACHELBOT_GATEWAY_PASSWORD;
     cfg.gateway.auth.mode = 'password';
   },
   BITTENSOR_ENABLED: (cfg) => {
@@ -1178,10 +1178,10 @@ const ENV_MAPPINGS: Record<string, (cfg: CloddsConfig) => void> = {
     const raw = process.env.ML_PIPELINE_CLEANUP_DAYS;
     if (raw) cfg.mlPipeline.cleanupDays = safeParseInt(raw) ?? cfg.mlPipeline.cleanupDays;
   },
-  CLODDS_GROUP_POLICIES: (cfg) => {
-    if (!process.env.CLODDS_GROUP_POLICIES) return;
+  RACHELBOT_GROUP_POLICIES: (cfg) => {
+    if (!process.env.RACHELBOT_GROUP_POLICIES) return;
     try {
-      const parsed = JSON.parse(process.env.CLODDS_GROUP_POLICIES) as Record<string, unknown>;
+      const parsed = JSON.parse(process.env.RACHELBOT_GROUP_POLICIES) as Record<string, unknown>;
       if (!cfg.channels) cfg.channels = {};
       for (const [channel, value] of Object.entries(parsed)) {
         if (!value || typeof value !== 'object') continue;
@@ -1190,13 +1190,13 @@ const ENV_MAPPINGS: Record<string, (cfg: CloddsConfig) => void> = {
         (cfg.channels as Record<string, any>)[channel] = channelConfig;
       }
     } catch (error) {
-      logger.warn({ error }, 'Failed to parse CLODDS_GROUP_POLICIES');
+      logger.warn({ error }, 'Failed to parse RACHELBOT_GROUP_POLICIES');
     }
   },
 };
 
 /** Apply environment variable overrides */
-function applyEnvOverrides(cfg: CloddsConfig): CloddsConfig {
+function applyEnvOverrides(cfg: RachelBotConfig): RachelBotConfig {
   for (const [envKey, applier] of Object.entries(ENV_MAPPINGS)) {
     if (process.env[envKey]) {
       applier(cfg);
@@ -1254,11 +1254,11 @@ function parseJson5(text: string): unknown {
 }
 
 /** Deep merge configs */
-function deepMerge(target: CloddsConfig, source: CloddsConfig): CloddsConfig {
+function deepMerge(target: RachelBotConfig, source: RachelBotConfig): RachelBotConfig {
   const result = { ...target };
   const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
-  for (const key of Object.keys(source) as Array<keyof CloddsConfig>) {
+  for (const key of Object.keys(source) as Array<keyof RachelBotConfig>) {
     if (DANGEROUS_KEYS.has(key as string)) continue;
     const sourceVal = source[key];
     const targetVal = target[key];
@@ -1278,8 +1278,8 @@ function deepMerge(target: CloddsConfig, source: CloddsConfig): CloddsConfig {
 }
 
 /** Load config from file */
-export function loadConfig(configPath = CONFIG_PATH): CloddsConfig {
-  let userConfig: CloddsConfig = {};
+export function loadConfig(configPath = CONFIG_PATH): RachelBotConfig {
+  let userConfig: RachelBotConfig = {};
 
   // Ensure state dir exists
   const stateDir = resolveStateDir();
@@ -1293,7 +1293,7 @@ export function loadConfig(configPath = CONFIG_PATH): CloddsConfig {
       const raw = readFileSync(configPath, 'utf-8');
       const parsed = parseJson5(raw);
       userConfig = (parsed && typeof parsed === 'object' && !Array.isArray(parsed))
-        ? parsed as CloddsConfig
+        ? parsed as RachelBotConfig
         : {};
       logger.debug({ configPath }, 'Config loaded');
     } catch (error) {
@@ -1302,7 +1302,7 @@ export function loadConfig(configPath = CONFIG_PATH): CloddsConfig {
   }
 
   // Substitute env vars in config values
-  userConfig = substituteEnvVars(userConfig) as CloddsConfig;
+  userConfig = substituteEnvVars(userConfig) as RachelBotConfig;
 
   // Merge with defaults
   let config = deepMerge(DEFAULT_CONFIG, userConfig);
@@ -1314,7 +1314,7 @@ export function loadConfig(configPath = CONFIG_PATH): CloddsConfig {
 }
 
 /** Load config and return raw snapshot */
-export function loadConfigSnapshot(configPath = CONFIG_PATH): { config: CloddsConfig; raw: string | null; hash: string } {
+export function loadConfigSnapshot(configPath = CONFIG_PATH): { config: RachelBotConfig; raw: string | null; hash: string } {
   let raw: string | null = null;
 
   if (existsSync(configPath)) {
@@ -1356,7 +1356,7 @@ function rotateBackups(configPath: string): void {
 }
 
 /** Save config to file */
-export function saveConfig(config: CloddsConfig, configPath = CONFIG_PATH): void {
+export function saveConfig(config: RachelBotConfig, configPath = CONFIG_PATH): void {
   // Ensure directory exists
   const dir = resolve(configPath, '..');
   if (!existsSync(dir)) {
@@ -1373,7 +1373,7 @@ export function saveConfig(config: CloddsConfig, configPath = CONFIG_PATH): void
   }
 
   // Stamp version
-  const stamped: CloddsConfig = {
+  const stamped: RachelBotConfig = {
     ...config,
     meta: {
       ...config.meta,
@@ -1398,7 +1398,7 @@ export interface ValidationError {
 }
 
 /** Validate config structure */
-export function validateConfig(config: CloddsConfig): ValidationError[] {
+export function validateConfig(config: RachelBotConfig): ValidationError[] {
   const errors: ValidationError[] = [];
   const isRecord = (value: unknown): value is Record<string, unknown> =>
     !!value && typeof value === 'object' && !Array.isArray(value);
@@ -1687,24 +1687,24 @@ export function validateConfig(config: CloddsConfig): ValidationError[] {
 
 export interface ConfigService {
   /** Get current config */
-  get(): CloddsConfig;
+  get(): RachelBotConfig;
   /** Get a specific config value */
   getValue<T>(path: string): T | undefined;
   /** Set a config value */
   setValue(path: string, value: unknown): void;
   /** Reload config from file */
-  reload(): CloddsConfig;
+  reload(): RachelBotConfig;
   /** Save current config to file */
   save(): void;
   /** Get config hash */
   getHash(): string;
   /** Watch for config changes */
-  watch(callback: (config: CloddsConfig) => void): () => void;
+  watch(callback: (config: RachelBotConfig) => void): () => void;
 }
 
 export function createConfigService(configPath = CONFIG_PATH): ConfigService {
   let { config, hash } = loadConfigSnapshot(configPath);
-  const watchers: Array<(config: CloddsConfig) => void> = [];
+  const watchers: Array<(config: RachelBotConfig) => void> = [];
 
   return {
     get() {

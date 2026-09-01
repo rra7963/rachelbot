@@ -45,7 +45,7 @@ Protect trades from MEV (Maximal Extractable Value) attacks including sandwich a
 ### Create MEV Protection
 
 ```typescript
-import { createMEVProtection } from 'clodds/mev';
+import { createMEVProtection } from 'rachelbot/mev';
 
 const mev = createMEVProtection({
   // Default level

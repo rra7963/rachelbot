@@ -217,7 +217,7 @@ export interface AgentManager {
   getSkillCommands: () => Array<{ name: string; description: string; subcommands?: Array<{ name: string; description: string; category: string }> }>;
 }
 
-const SYSTEM_PROMPT = `You are Clodds, an AI assistant for prediction markets. Claude + Odds.
+const SYSTEM_PROMPT = `You are RachelBot, an AI assistant for prediction markets. Claude + Odds.
 
 You help users:
 - Track prediction markets across platforms (Polymarket, Kalshi, Manifold, Metaculus, PredictIt)
@@ -329,10 +329,10 @@ function toEvmChain(chain: string): EvmChain {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ApiResponse<T = Record<string, unknown>> = T;
 
-const STREAM_TOOL_CALLS_ENABLED = process.env.CLODDS_STREAM_TOOL_CALLS !== '0';
-const TOOL_STREAM_DELAY_MS = Math.max(0, Number(process.env.CLODDS_STREAM_TOOL_DELAY_MS || 750));
-const STREAM_RESPONSES_ENABLED = process.env.CLODDS_STREAM_RESPONSES !== '0';
-const STREAM_RESPONSE_INTERVAL_MS = Math.max(150, Number(process.env.CLODDS_STREAM_RESPONSE_INTERVAL_MS || 500));
+const STREAM_TOOL_CALLS_ENABLED = process.env.RACHELBOT_STREAM_TOOL_CALLS !== '0';
+const TOOL_STREAM_DELAY_MS = Math.max(0, Number(process.env.RACHELBOT_STREAM_TOOL_DELAY_MS || 750));
+const STREAM_RESPONSES_ENABLED = process.env.RACHELBOT_STREAM_RESPONSES !== '0';
+const STREAM_RESPONSE_INTERVAL_MS = Math.max(150, Number(process.env.RACHELBOT_STREAM_RESPONSE_INTERVAL_MS || 500));
 const STREAM_RESPONSE_PLATFORMS = new Set([
   'telegram',
   'discord',
@@ -342,7 +342,7 @@ const STREAM_RESPONSE_PLATFORMS = new Set([
   'teams',
   'webchat',
 ]);
-const MEMORY_EXTRACT_MODEL = process.env.CLODDS_MEMORY_EXTRACT_MODEL || process.env.CLODDS_SUMMARY_MODEL || 'claude-3-5-haiku-20241022';
+const MEMORY_EXTRACT_MODEL = process.env.RACHELBOT_MEMORY_EXTRACT_MODEL || process.env.RACHELBOT_SUMMARY_MODEL || 'claude-3-5-haiku-20241022';
 const KALSHI_API_BASE = 'https://api.elections.kalshi.com/trade-api/v2';
 const DRIFT_GATEWAY_URL = process.env.DRIFT_GATEWAY_URL || 'http://localhost:8080';
 
@@ -7285,7 +7285,7 @@ function buildTools(): ToolDefinition[] {
     },
     {
       name: 'sql_query',
-      description: 'Run a safe, read-only SQL query against the local Clodds database (SELECT/WITH/PRAGMA/EXPLAIN/VALUES only)',
+      description: 'Run a safe, read-only SQL query against the local RachelBot database (SELECT/WITH/PRAGMA/EXPLAIN/VALUES only)',
       input_schema: {
         type: 'object',
         properties: {
@@ -16021,7 +16021,7 @@ async function executeTool(
         const timeout = ((toolInput.timeout as number) || 30) * 1000;
 
         // Write code to temp file
-        const tempFile = join('/tmp', `clodds_exec_${Date.now()}.py`);
+        const tempFile = join('/tmp', `rachelbot_exec_${Date.now()}.py`);
         writeFileSync(tempFile, code);
 
         try {
@@ -16075,7 +16075,7 @@ async function executeTool(
           return JSON.stringify({
             error: approval.reason || 'Approval required',
             requestId: approval.requestId,
-            hint: 'Run: clodds permissions pending / clodds permissions approve <id>',
+            hint: 'Run: rachelbot permissions pending / rachelbot permissions approve <id>',
           });
         }
 
@@ -16111,7 +16111,7 @@ async function executeTool(
 
         if (script.includes('\n') || script.startsWith('import ') || script.startsWith('from ')) {
           // It's code - write to temp file
-          const tempFile = join('/tmp', `clodds_bot_${botId}.py`);
+          const tempFile = join('/tmp', `rachelbot_bot_${botId}.py`);
           writeFileSync(tempFile, script);
           cmd = `python3 ${tempFile} ${args}`;
         } else {
@@ -17487,8 +17487,8 @@ export async function createAgentManager(
           }
         }
 
-        const semanticTopK = memoryAuto.semanticSearchTopK ?? (process.env.CLODDS_MEMORY_SEARCH === '1'
-          ? Number(process.env.CLODDS_MEMORY_SEARCH_TOPK || 5)
+        const semanticTopK = memoryAuto.semanticSearchTopK ?? (process.env.RACHELBOT_MEMORY_SEARCH === '1'
+          ? Number(process.env.RACHELBOT_MEMORY_SEARCH_TOPK || 5)
           : 0);
 
         if (semanticTopK > 0 && processedMessage.text?.trim()) {
@@ -17587,9 +17587,9 @@ export async function createAgentManager(
         compactThreshold: 0.85,
         minMessagesAfterCompact: 6,
         summarizer,
-        dedupe: process.env.CLODDS_CONTEXT_DEDUPE === '1',
-        dedupeThreshold: Number(process.env.CLODDS_CONTEXT_DEDUPE_THRESHOLD || 0.92),
-        dedupeWindow: Number(process.env.CLODDS_CONTEXT_DEDUPE_WINDOW || 12),
+        dedupe: process.env.RACHELBOT_CONTEXT_DEDUPE === '1',
+        dedupeThreshold: Number(process.env.RACHELBOT_CONTEXT_DEDUPE_THRESHOLD || 0.92),
+        dedupeWindow: Number(process.env.RACHELBOT_CONTEXT_DEDUPE_WINDOW || 12),
         embedder: memory?.embed,
         similarity: memory?.cosineSimilarity,
       };

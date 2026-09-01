@@ -382,13 +382,13 @@ export function createHooksService(): HooksService {
   let idCounter = 0;
   const hooksDir = getHooksDir();
   let currentSourcePath: string | null = null;
-  let tracingEnabled = process.env.CLODDS_HOOK_TRACE === '1';
+  let tracingEnabled = process.env.RACHELBOT_HOOK_TRACE === '1';
   let traceLimit = Math.max(
     10,
-    Number.parseInt(process.env.CLODDS_HOOK_TRACE_LIMIT ?? '200', 10) || 200
+    Number.parseInt(process.env.RACHELBOT_HOOK_TRACE_LIMIT ?? '200', 10) || 200
   );
   const traces: HookTraceEntry[] = [];
-  const traceFilePath = process.env.CLODDS_HOOK_TRACE_FILE || join(hooksDir, 'trace.log');
+  const traceFilePath = process.env.RACHELBOT_HOOK_TRACE_FILE || join(hooksDir, 'trace.log');
   const activeRuns = new Map<string, { ctx: HookContext; controller: AbortController; startedAt: number }>();
   const stateStorePath = getHookStateStorePath();
   let stateStore = loadHookStateStore(stateStorePath);
@@ -1036,7 +1036,7 @@ export function createSystemPromptInjector(
 export const hooks = createHooksService();
 
 export function getHooksDir(): string {
-  return join(homedir(), '.clodds', 'hooks');
+  return join(homedir(), '.rachelbot', 'hooks');
 }
 
 export function getHooksStatePath(): string {

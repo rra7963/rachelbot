@@ -158,7 +158,7 @@ export async function getRCPPollingAverage(race: string): Promise<ExternalSource
   try {
     const response = await fetch('https://www.realclearpolitics.com/polls/', {
       headers: {
-        'User-Agent': 'Clodds/1.0 Polling Aggregator',
+        'User-Agent': 'RachelBot/1.0 Polling Aggregator',
         'Accept': 'text/html',
       },
     });
@@ -343,7 +343,7 @@ async function scrapeModelProbability(urls: string[], market: string): Promise<n
     try {
       const response = await fetch(url, {
         headers: {
-          'User-Agent': 'Clodds/1.0 Forecast Scraper',
+          'User-Agent': 'RachelBot/1.0 Forecast Scraper',
           Accept: 'text/html',
         },
       });

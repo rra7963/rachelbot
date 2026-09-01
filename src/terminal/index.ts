@@ -278,7 +278,7 @@ export class Repl extends EventEmitter {
     this.commands = commands;
     this.promptString = options.prompt || color('> ', 'cyan');
     this.history = new HistoryManager(
-      options.historyFile ?? join(homedir(), '.clodds', 'history'),
+      options.historyFile ?? join(homedir(), '.rachelbot', 'history'),
       options.historySize ?? 1000
     );
     this.autocomplete = options.autocomplete;
@@ -325,7 +325,7 @@ export class Repl extends EventEmitter {
       this.rl?.prompt();
     });
 
-    console.log(box(bold('Welcome to Clodds'), {
+    console.log(box(bold('Welcome to RachelBot'), {
       borderStyle: 'rounded',
       borderColor: 'cyan',
       padding: 1,

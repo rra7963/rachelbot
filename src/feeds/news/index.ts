@@ -101,7 +101,7 @@ export async function createNewsFeed(config?: {
       }
 
       const response = await fetch(feedUrl, {
-        headers: { 'User-Agent': 'Clodds/1.0 News Aggregator' },
+        headers: { 'User-Agent': 'RachelBot/1.0 News Aggregator' },
       });
 
       if (!response.ok) {

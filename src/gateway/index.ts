@@ -437,7 +437,7 @@ export async function createGateway(config: Config): Promise<AppGateway> {
   }
   let currentConfig = config;
   configureHttpClient(currentConfig.http);
-  const configPath = process.env.CLODDS_CONFIG_PATH || CONFIG_FILE;
+  const configPath = process.env.RACHELBOT_CONFIG_PATH || CONFIG_FILE;
   const db = await initDatabase();
   try {
     const runner = createMigrationRunner(db);
@@ -1503,7 +1503,7 @@ export async function createGateway(config: Config): Promise<AppGateway> {
 
   function getSkillWatchPaths(cfg: Config): string[] {
     const bundledDir = path.join(__dirname, '..', 'skills', 'bundled');
-    const managedDir = path.join(process.cwd(), '.clodds', 'skills');
+    const managedDir = path.join(process.cwd(), '.rachelbot', 'skills');
     const workspaceDir = path.join(cfg.agents.defaults.workspace, 'skills');
     return [bundledDir, managedDir, workspaceDir];
   }

@@ -31,10 +31,10 @@ On January 29, 2026, an agent named "samaltman" attempted to hijack bots via pro
 /verify whale 0xabc...                 # Verify whale identity
 ```
 
-### Register Clodds
+### Register RachelBot
 
 ```
-/verify register                       # Register this Clodds instance
+/verify register                       # Register this RachelBot instance
 /verify register --name "MyBot"        # With custom name
 ```
 
@@ -52,7 +52,7 @@ On January 29, 2026, an agent named "samaltman" attempted to hijack bots via pro
 ### Quick Verification
 
 ```typescript
-import { verifyAgent, hasIdentity } from 'clodds/identity';
+import { verifyAgent, hasIdentity } from 'rachelbot/identity';
 
 // Verify by agent ID
 const result = await verifyAgent(1234);
@@ -69,7 +69,7 @@ const hasId = await hasIdentity('0x742d35Cc...');
 ### Full Client
 
 ```typescript
-import { createERC8004Client } from 'clodds/identity';
+import { createERC8004Client } from 'rachelbot/identity';
 
 const client = createERC8004Client('base-sepolia');
 
@@ -92,16 +92,16 @@ const txHash = await client.giveFeedback(1234, 85, 'Great trading signals');
 ### Register Agent
 
 ```typescript
-import { createERC8004Client, buildAgentCard } from 'clodds/identity';
+import { createERC8004Client, buildAgentCard } from 'rachelbot/identity';
 
 const client = createERC8004Client('base', process.env.PRIVATE_KEY);
 
 // Build agent card
 const card = buildAgentCard({
-  name: 'Clodds Trading Bot',
+  name: 'RachelBot Trading Bot',
   description: 'AI-powered prediction market assistant',
   walletAddress: '0x742d35Cc...',
-  apiEndpoint: 'https://api.cloddsbot.com/agent',
+  apiEndpoint: 'https://api.rachelbot.com/agent',
 });
 
 // Upload to IPFS (use Pinata, web3.storage, etc.)

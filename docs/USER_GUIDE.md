@@ -1,4 +1,4 @@
-# Clodds User Guide
+# RachelBot User Guide
 
 This guide focuses on day-to-day usage: starting the gateway, pairing users,
 chat commands, and common workflows.
@@ -6,15 +6,15 @@ chat commands, and common workflows.
 ## Quick start
 
 ```bash
-npm install -g clodds
-clodds onboard
+npm install -g rachelbot
+rachelbot onboard
 ```
 
 The wizard sets up your API key, picks a channel, and starts the gateway.
 
 **From source (alternative):**
 ```bash
-git clone https://github.com/alsk1992/CloddsBot.git && cd CloddsBot
+git clone https://github.com/rra7963/rachelbot.git && cd rachelbot
 npm install && cp .env.example .env
 # Add ANTHROPIC_API_KEY to .env
 npm run build && npm start
@@ -24,208 +24,208 @@ The gateway listens on `http://127.0.0.1:18789` by default.
 
 ## CLI Commands Reference
 
-All `clodds` CLI commands:
+All `rachelbot` CLI commands:
 
 ### Core Commands
 
 ```bash
-clodds start                    # Start the gateway
-clodds repl                     # Interactive REPL mode
-clodds doctor                   # System diagnostics and health checks
-clodds status                   # Show gateway status
-clodds endpoints                # List all registered endpoints
-clodds secure [--dry-run]       # Server security hardening (Linux)
-clodds secure audit             # Run security audit only
+rachelbot start                    # Start the gateway
+rachelbot repl                     # Interactive REPL mode
+rachelbot doctor                   # System diagnostics and health checks
+rachelbot status                   # Show gateway status
+rachelbot endpoints                # List all registered endpoints
+rachelbot secure [--dry-run]       # Server security hardening (Linux)
+rachelbot secure audit             # Run security audit only
 ```
 
 ### Pairing Commands
 
 ```bash
-clodds pairing list <channel>              # List pending pairing requests
-clodds pairing approve <channel> <code>    # Approve a pairing request
-clodds pairing reject <channel> <code>     # Reject a pairing request
-clodds pairing users <channel>             # List paired users
-clodds pairing set-owner <channel> <id>    # Set channel owner
-clodds pairing remove-owner <channel> <id> # Remove channel owner
-clodds pairing owners <channel>            # List channel owners
-clodds pairing add <channel> <userId>      # Manually add user
-clodds pairing remove <channel> <userId>   # Remove user
+rachelbot pairing list <channel>              # List pending pairing requests
+rachelbot pairing approve <channel> <code>    # Approve a pairing request
+rachelbot pairing reject <channel> <code>     # Reject a pairing request
+rachelbot pairing users <channel>             # List paired users
+rachelbot pairing set-owner <channel> <id>    # Set channel owner
+rachelbot pairing remove-owner <channel> <id> # Remove channel owner
+rachelbot pairing owners <channel>            # List channel owners
+rachelbot pairing add <channel> <userId>      # Manually add user
+rachelbot pairing remove <channel> <userId>   # Remove user
 ```
 
 ### Configuration Commands
 
 ```bash
-clodds config get [key]         # Get config value or show all
-clodds config set <key> <value> # Set config value
-clodds config unset <key>       # Remove config value
-clodds config path              # Show config file path
+rachelbot config get [key]         # Get config value or show all
+rachelbot config set <key> <value> # Set config value
+rachelbot config unset <key>       # Remove config value
+rachelbot config path              # Show config file path
 ```
 
 ### Model Commands
 
 ```bash
-clodds model list               # List available models
-clodds model default [model]    # Get or set default model
+rachelbot model list               # List available models
+rachelbot model default [model]    # Get or set default model
 ```
 
 ### Session Commands
 
 ```bash
-clodds session list             # List active sessions
-clodds session clear [id]       # Clear all or specific session
+rachelbot session list             # List active sessions
+rachelbot session clear [id]       # Clear all or specific session
 ```
 
 ### Cron Commands (Scheduled Tasks)
 
 ```bash
-clodds cron list                # List scheduled jobs
-clodds cron show <id>           # Show job details
-clodds cron enable <id>         # Enable a job
-clodds cron disable <id>        # Disable a job
-clodds cron delete <id>         # Delete a job
+rachelbot cron list                # List scheduled jobs
+rachelbot cron show <id>           # Show job details
+rachelbot cron enable <id>         # Enable a job
+rachelbot cron disable <id>        # Disable a job
+rachelbot cron delete <id>         # Delete a job
 ```
 
 ### User Management Commands
 
 ```bash
-clodds users list                                    # List all users
-clodds users settings <platform> <platformUserId>   # Show user settings
-clodds users settings-by-id <userId>                # Show settings by ID
-clodds users set-settings <platform> <platformUserId> [options]  # Update settings
-clodds users set-settings-by-id <userId> [options]  # Update settings by ID
+rachelbot users list                                    # List all users
+rachelbot users settings <platform> <platformUserId>   # Show user settings
+rachelbot users settings-by-id <userId>                # Show settings by ID
+rachelbot users set-settings <platform> <platformUserId> [options]  # Update settings
+rachelbot users set-settings-by-id <userId> [options]  # Update settings by ID
 ```
 
 ### Memory Commands
 
 ```bash
-clodds memory list <userId>           # List user's memories
-clodds memory search <userId> <query> # Search user's memories
-clodds memory clear <userId>          # Clear user's memories
-clodds memory export <userId>         # Export user's memories
+rachelbot memory list <userId>           # List user's memories
+rachelbot memory search <userId> <query> # Search user's memories
+rachelbot memory clear <userId>          # Clear user's memories
+rachelbot memory export <userId>         # Export user's memories
 ```
 
 ### Hooks Commands
 
 ```bash
-clodds hooks list               # List all hooks
-clodds hooks install <path>     # Install a hook from path
-clodds hooks uninstall <name>   # Uninstall a hook
-clodds hooks enable <name>      # Enable a hook
-clodds hooks disable <name>     # Disable a hook
-clodds hooks trace              # Show hook execution trace
-clodds hooks state get <name> [key]        # Get hook state
-clodds hooks state set <name> <key> <val>  # Set hook state
-clodds hooks state clear <name> [key]      # Clear hook state
+rachelbot hooks list               # List all hooks
+rachelbot hooks install <path>     # Install a hook from path
+rachelbot hooks uninstall <name>   # Uninstall a hook
+rachelbot hooks enable <name>      # Enable a hook
+rachelbot hooks disable <name>     # Disable a hook
+rachelbot hooks trace              # Show hook execution trace
+rachelbot hooks state get <name> [key]        # Get hook state
+rachelbot hooks state set <name> <key> <val>  # Set hook state
+rachelbot hooks state clear <name> [key]      # Clear hook state
 ```
 
 ### MCP (Model Context Protocol) Commands
 
 ```bash
-clodds mcp list                 # List MCP servers
-clodds mcp add <name> <command> # Add an MCP server
-clodds mcp remove <name>        # Remove an MCP server
-clodds mcp test <name>          # Test an MCP server
-clodds mcp stats                # Show MCP stats
-clodds mcp sync                 # Sync MCP servers
+rachelbot mcp list                 # List MCP servers
+rachelbot mcp add <name> <command> # Add an MCP server
+rachelbot mcp remove <name>        # Remove an MCP server
+rachelbot mcp test <name>          # Test an MCP server
+rachelbot mcp stats                # Show MCP stats
+rachelbot mcp sync                 # Sync MCP servers
 ```
 
 ### Permissions Commands
 
 ```bash
-clodds permissions list              # List permission rules
-clodds permissions allow <pattern>   # Allow a command pattern
-clodds permissions remove <entryId>  # Remove permission rule
-clodds permissions mode <mode>       # Set permission mode
-clodds permissions ask <mode>        # Set ask mode
-clodds permissions pending           # Show pending approvals
-clodds permissions approve <reqId>   # Approve pending request
-clodds permissions deny <reqId>      # Deny pending request
+rachelbot permissions list              # List permission rules
+rachelbot permissions allow <pattern>   # Allow a command pattern
+rachelbot permissions remove <entryId>  # Remove permission rule
+rachelbot permissions mode <mode>       # Set permission mode
+rachelbot permissions ask <mode>        # Set ask mode
+rachelbot permissions pending           # Show pending approvals
+rachelbot permissions approve <reqId>   # Approve pending request
+rachelbot permissions deny <reqId>      # Deny pending request
 ```
 
 ### Usage & Analytics Commands
 
 ```bash
-clodds usage summary            # Usage summary
-clodds usage by-model           # Usage breakdown by model
-clodds usage by-user            # Usage breakdown by user
-clodds usage export             # Export usage data
-clodds usage today              # Today's usage
+rachelbot usage summary            # Usage summary
+rachelbot usage by-model           # Usage breakdown by model
+rachelbot usage by-user            # Usage breakdown by user
+rachelbot usage export             # Export usage data
+rachelbot usage today              # Today's usage
 ```
 
 ### Credentials Commands
 
 ```bash
-clodds creds test [platform]    # Test credentials for a platform
+rachelbot creds test [platform]    # Test credentials for a platform
 ```
 
 ### Skills Commands
 
 ```bash
-clodds skills list              # List available skills
-clodds skills search <query>    # Search for skills
-clodds skills install <slug>    # Install a skill
-clodds skills update [slug]     # Update skill(s)
-clodds skills uninstall <slug>  # Uninstall a skill
-clodds skills info <slug>       # Show skill details
-clodds skills check-updates     # Check for skill updates
+rachelbot skills list              # List available skills
+rachelbot skills search <query>    # Search for skills
+rachelbot skills install <slug>    # Install a skill
+rachelbot skills update [slug]     # Update skill(s)
+rachelbot skills uninstall <slug>  # Uninstall a skill
+rachelbot skills info <slug>       # Show skill details
+rachelbot skills check-updates     # Check for skill updates
 ```
 
 ### MCP Server Commands
 
 ```bash
-clodds mcp                      # Start MCP server (stdio JSON-RPC)
-clodds mcp install              # Auto-configure Claude Desktop & Claude Code
-clodds mcp uninstall            # Remove Clodds from Claude config
+rachelbot mcp                      # Start MCP server (stdio JSON-RPC)
+rachelbot mcp install              # Auto-configure Claude Desktop & Claude Code
+rachelbot mcp uninstall            # Remove RachelBot from Claude config
 ```
 
-Exposes all 119 skills as MCP tools. After `clodds mcp install`, restart Claude Desktop/Code to use Clodds skills directly from Claude.
+Exposes all 119 skills as MCP tools. After `rachelbot mcp install`, restart Claude Desktop/Code to use RachelBot skills directly from Claude.
 
 ### QMD (Quantitative Market Data) Commands
 
 ```bash
-clodds qmd status               # Show QMD status
-clodds qmd update               # Update market data
-clodds qmd embed                # Generate embeddings
-clodds qmd get <target>         # Get market data
-clodds qmd multi-get <targets>  # Get multiple markets
-clodds qmd collection add <path>           # Add collection
-clodds qmd context add <collection> <desc> # Add context
-clodds qmd polymarket <query>   # Search Polymarket
-clodds qmd kalshi <query>       # Search Kalshi
-clodds qmd metaculus <query>    # Search Metaculus
-clodds qmd manifold <query>     # Search Manifold
+rachelbot qmd status               # Show QMD status
+rachelbot qmd update               # Update market data
+rachelbot qmd embed                # Generate embeddings
+rachelbot qmd get <target>         # Get market data
+rachelbot qmd multi-get <targets>  # Get multiple markets
+rachelbot qmd collection add <path>           # Add collection
+rachelbot qmd context add <collection> <desc> # Add context
+rachelbot qmd polymarket <query>   # Search Polymarket
+rachelbot qmd kalshi <query>       # Search Kalshi
+rachelbot qmd metaculus <query>    # Search Metaculus
+rachelbot qmd manifold <query>     # Search Manifold
 ```
 
 ### Market Index Commands
 
 ```bash
-clodds market-index stats       # Show index statistics
-clodds market-index sync        # Sync market index
+rachelbot market-index stats       # Show index statistics
+rachelbot market-index sync        # Sync market index
 ```
 
 ### WhatsApp Commands
 
 ```bash
-clodds whatsapp login           # Login with QR code
+rachelbot whatsapp login           # Login with QR code
 ```
 
 ### Bittensor Commands
 
 ```bash
-clodds bittensor setup          # Interactive setup wizard (Python, btcli, wallet, config)
-clodds bittensor status         # Show mining configuration and status
-clodds bittensor check          # Verify all dependencies are installed
-clodds bittensor wallet show    # Show wallet address and balance
-clodds bittensor wallet create  # Create a new Bittensor wallet
-clodds bittensor wallet balance # Check TAO balance
-clodds bittensor register <id>  # Register on a subnet (e.g. 64 for Chutes)
+rachelbot bittensor setup          # Interactive setup wizard (Python, btcli, wallet, config)
+rachelbot bittensor status         # Show mining configuration and status
+rachelbot bittensor check          # Verify all dependencies are installed
+rachelbot bittensor wallet show    # Show wallet address and balance
+rachelbot bittensor wallet create  # Create a new Bittensor wallet
+rachelbot bittensor wallet balance # Check TAO balance
+rachelbot bittensor register <id>  # Register on a subnet (e.g. 64 for Chutes)
 ```
 
 ### Doctor Command
 
 ```bash
-clodds doctor                   # Comprehensive system health check
-clodds doctor --verbose         # Include all optional features and services
+rachelbot doctor                   # Comprehensive system health check
+rachelbot doctor --verbose         # Include all optional features and services
 ```
 
 Checks AI providers, messaging channels, trading platforms, external services, and Bittensor dependencies. Use this to diagnose configuration issues.
@@ -233,10 +233,10 @@ Checks AI providers, messaging channels, trading platforms, external services, a
 ### Locale Commands (i18n)
 
 ```bash
-clodds locale list              # List supported languages
-clodds locale get               # Show current locale
-clodds locale set <code>        # Set locale (en, zh, es, ja, ko, de, fr, pt, ru, ar)
-clodds locale test [key]        # Test a translation key
+rachelbot locale list              # List supported languages
+rachelbot locale get               # Show current locale
+rachelbot locale set <code>        # Set locale (en, zh, es, ja, ko, de, fr, pt, ru, ar)
+rachelbot locale test [key]        # Test a translation key
 ```
 
 ### Trade Ledger Commands
@@ -244,64 +244,64 @@ clodds locale test [key]        # Test a translation key
 Decision audit trail for AI trading transparency.
 
 ```bash
-clodds ledger list [userId]         # List recent decisions
-clodds ledger list -n 50            # List more decisions
-clodds ledger list -c trade         # Filter by category (trade/copy/arbitrage/risk)
-clodds ledger list -d rejected      # Filter by decision (approved/rejected/blocked)
-clodds ledger stats [userId]        # Show decision statistics
-clodds ledger stats -p 30d          # Stats for last 30 days
-clodds ledger calibration [userId]  # Show confidence calibration
-clodds ledger export [userId]       # Export decisions to JSON
-clodds ledger export -f csv         # Export as CSV
-clodds ledger prune --days 90       # Delete decisions older than 90 days
-clodds ledger verify <id>           # Verify decision hash integrity
-clodds ledger config                # Show ledger configuration
+rachelbot ledger list [userId]         # List recent decisions
+rachelbot ledger list -n 50            # List more decisions
+rachelbot ledger list -c trade         # Filter by category (trade/copy/arbitrage/risk)
+rachelbot ledger list -d rejected      # Filter by decision (approved/rejected/blocked)
+rachelbot ledger stats [userId]        # Show decision statistics
+rachelbot ledger stats -p 30d          # Stats for last 30 days
+rachelbot ledger calibration [userId]  # Show confidence calibration
+rachelbot ledger export [userId]       # Export decisions to JSON
+rachelbot ledger export -f csv         # Export as CSV
+rachelbot ledger prune --days 90       # Delete decisions older than 90 days
+rachelbot ledger verify <id>           # Verify decision hash integrity
+rachelbot ledger config                # Show ledger configuration
 ```
 
 Enable the ledger:
 ```bash
-clodds config set ledger.enabled true
-clodds config set ledger.hashIntegrity true  # Optional: SHA-256 hashing
+rachelbot config set ledger.enabled true
+rachelbot config set ledger.hashIntegrity true  # Optional: SHA-256 hashing
 ```
 
 Onchain anchoring (tamper-proof verification):
 ```bash
-clodds ledger anchor <id>                    # Anchor to Solana (default)
-clodds ledger anchor <id> -c polygon         # Anchor to Polygon
-clodds ledger anchor <id> -c base            # Anchor to Base
-clodds ledger verify-anchor <txHash> <hash>  # Verify onchain anchor
+rachelbot ledger anchor <id>                    # Anchor to Solana (default)
+rachelbot ledger anchor <id> -c polygon         # Anchor to Polygon
+rachelbot ledger anchor <id> -c base            # Anchor to Base
+rachelbot ledger verify-anchor <txHash> <hash>  # Verify onchain anchor
 ```
 
 ### Auth Commands
 
 ```bash
-clodds login                    # Login to Clodds
-clodds logout                   # Logout from Clodds
-clodds version                  # Show version
+rachelbot login                    # Login to RachelBot
+rachelbot logout                   # Logout from RachelBot
+rachelbot version                  # Show version
 ```
 
 ### Other Commands
 
 ```bash
-clodds init                     # Initialize config
-clodds upgrade                  # Check for updates
+rachelbot init                     # Initialize config
+rachelbot upgrade                  # Check for updates
 ```
 
 ## Pairing and access control
 
-Clodds uses a pairing flow to protect DMs.
+RachelBot uses a pairing flow to protect DMs.
 
 ### Approve a pairing request (CLI)
 
 ```
-clodds pairing list telegram
-clodds pairing approve telegram ABC123
+rachelbot pairing list telegram
+rachelbot pairing approve telegram ABC123
 ```
 
 ### Set an owner (can approve via chat)
 
 ```
-clodds pairing set-owner telegram 123456789 -u "username"
+rachelbot pairing set-owner telegram 123456789 -u "username"
 ```
 
 ## WebChat (browser)
@@ -473,7 +473,7 @@ Note: automated stop-loss execution respects `trading.dryRun` in config.
 
 ## Advanced Trading Configuration
 
-Configure advanced trading features in `clodds.json`:
+Configure advanced trading features in `rachelbot.json`:
 
 ```json
 {
@@ -557,7 +557,7 @@ The executor listens for opportunities from the opportunity finder and automatic
 
 ## Real-time Alerts
 
-Push notifications for trading events. Configure in `clodds.json`:
+Push notifications for trading events. Configure in `rachelbot.json`:
 
 ```json
 {
@@ -655,13 +655,13 @@ by default:
 - Header: `x-webhook-signature` (or `x-hub-signature-256`)
 - Value: hex HMAC-SHA256 of the raw request body using the webhook secret
 
-Set `CLODDS_WEBHOOK_REQUIRE_SIGNATURE=0` to disable signature checks.
+Set `RACHELBOT_WEBHOOK_REQUIRE_SIGNATURE=0` to disable signature checks.
 
 ## Troubleshooting
 
 Common checks:
 
-- `clodds doctor` - environment and config checks
+- `rachelbot doctor` - environment and config checks
 - `npm run build` - verify TypeScript compilation
 - `npm run dev` - start in dev mode with logs
 
@@ -683,7 +683,7 @@ WhatsApp:
 }
 ```
 
-If you omit `accountId`, Clodds will attempt to route alerts using the most
+If you omit `accountId`, RachelBot will attempt to route alerts using the most
 recent session for that chat (when available).
 
 You can also specify per-account WhatsApp DM policies under
@@ -716,7 +716,7 @@ Monitor whale activity across Solana and EVM chains:
 
 **Supported chains:** Solana, Ethereum, Polygon, Arbitrum, Base, Optimism
 
-Configure thresholds in `clodds.json`:
+Configure thresholds in `rachelbot.json`:
 
 ```json
 {
@@ -1165,7 +1165,7 @@ All trades are logged to SQLite with full PnL tracking:
 
 ## Telegram Mini App
 
-Access Clodds as a Telegram Mini App (Web App) for mobile-friendly portfolio and market access.
+Access RachelBot as a Telegram Mini App (Web App) for mobile-friendly portfolio and market access.
 
 ### Setup
 
@@ -1198,7 +1198,7 @@ https://t.me/YourBot/app
 
 ## Data Sources
 
-Clodds integrates multiple external data sources for edge detection and trading signals.
+RachelBot integrates multiple external data sources for edge detection and trading signals.
 
 ### News Feed
 
@@ -1242,28 +1242,28 @@ Real-time prices via Binance WebSocket with Coinbase/CoinGecko fallback:
 
 ## Authentication
 
-Clodds supports multiple authentication methods for AI providers:
+RachelBot supports multiple authentication methods for AI providers:
 
 ### OAuth Authentication
 
 ```bash
 # Interactive OAuth flow
-clodds auth login anthropic
-clodds auth login openai
-clodds auth login google
+rachelbot auth login anthropic
+rachelbot auth login openai
+rachelbot auth login google
 
 # Check status
-clodds auth status
+rachelbot auth status
 
 # Revoke tokens
-clodds auth logout anthropic
+rachelbot auth logout anthropic
 ```
 
 ### GitHub Copilot
 
 ```bash
 # Authenticate with GitHub Copilot
-clodds auth copilot
+rachelbot auth copilot
 ```
 
 ### Google/Gemini
@@ -1272,7 +1272,7 @@ clodds auth copilot
 # API key authentication
 export GOOGLE_API_KEY=your-key
 # Or OAuth
-clodds auth login google
+rachelbot auth login google
 ```
 
 ### Qwen/DashScope
@@ -1289,7 +1289,7 @@ Enable OpenTelemetry for observability:
 {
   "telemetry": {
     "enabled": true,
-    "serviceName": "clodds",
+    "serviceName": "rachelbot",
     "otlpEndpoint": "http://localhost:4318",
     "metricsPort": 9090,
     "sampleRate": 1.0
@@ -1314,13 +1314,13 @@ AI-powered task execution with planning:
 
 ```bash
 # Run a complex task
-clodds task run "Build a REST API with authentication"
+rachelbot task run "Build a REST API with authentication"
 
 # View task status
-clodds task status
+rachelbot task status
 
 # Cancel running task
-clodds task cancel <id>
+rachelbot task cancel <id>
 ```
 
 ### Open Prose
@@ -1329,13 +1329,13 @@ AI-assisted document editing:
 
 ```bash
 # Create a document
-clodds prose create "My Article"
+rachelbot prose create "My Article"
 
 # Edit with AI
-clodds prose edit <id> "Make it more concise"
+rachelbot prose edit <id> "Make it more concise"
 
 # Export
-clodds prose export <id> html
+rachelbot prose export <id> html
 ```
 
 ## Production Deployment
@@ -1350,7 +1350,7 @@ All channel adapters include production-grade features:
 - **Auto-Reconnection**: Exponential backoff reconnection
 - **Metrics**: Request counts, latency, error rates
 
-Configure in `clodds.json`:
+Configure in `rachelbot.json`:
 
 ```json
 {
@@ -1372,13 +1372,13 @@ For production Linux deployments, use the built-in security hardening CLI:
 
 ```bash
 # Preview changes (safe, no modifications)
-clodds secure --dry-run
+rachelbot secure --dry-run
 
 # Apply all hardening
-sudo clodds secure
+sudo rachelbot secure
 
 # Run security audit only
-clodds secure audit
+rachelbot secure audit
 ```
 
 ### What gets hardened
@@ -1404,4 +1404,4 @@ See [SECURITY_AUDIT.md](./SECURITY_AUDIT.md) for detailed security documentation
 - Keep the gateway on loopback unless you add auth and a reverse proxy.
 - Use WebChat for fast local testing before wiring up a messaging platform.
 - For production, use Docker or a process manager and enable monitoring.
-- Run `clodds secure` on production servers for security hardening.
+- Run `rachelbot secure` on production servers for security hardening.

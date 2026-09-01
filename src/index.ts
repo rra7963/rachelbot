@@ -1,6 +1,6 @@
 /**
- * Clodds - AI Assistant for Prediction Markets
- * Claude + Odds
+ * RachelBot - AI Assistant for Prediction Markets
+ * RachelBot
  *
  * Entry point - starts the gateway and all services
  */
@@ -11,8 +11,8 @@ import { existsSync, mkdirSync, readFileSync, appendFileSync, writeFileSync } fr
 import { homedir } from 'os';
 import { join } from 'path';
 
-// Load .env from ~/.clodds/.env first (where onboard writes), then CWD fallback
-dotenvConfig({ path: join(homedir(), '.clodds', '.env') });
+// Load .env from ~/.rachelbot/.env first (where onboard writes), then CWD fallback
+dotenvConfig({ path: join(homedir(), '.rachelbot', '.env') });
 dotenvConfig();
 
 import { createGateway } from './gateway/index';
@@ -56,7 +56,7 @@ function renderProgress(): void {
   const linesToClear = startupSteps.length + 2;
   process.stdout.write(`\x1b[${linesToClear}A\x1b[0J`);
 
-  console.log('\n\x1b[1m🚀 Starting Clodds...\x1b[0m\n');
+  console.log('\n\x1b[1m🚀 Starting RachelBot...\x1b[0m\n');
 
   for (const step of startupSteps) {
     let icon: string;
@@ -119,34 +119,34 @@ function validateStartupRequirements(): void {
     errors.push(
       'ANTHROPIC_API_KEY is not set. The AI agent will not function.\n' +
       '  Fix: Add ANTHROPIC_API_KEY=sk-ant-... to your .env file\n' +
-      '  Or run: clodds onboard'
+      '  Or run: rachelbot onboard'
     );
   }
 
   // Auto-generate credential encryption key if not set
-  if (!process.env.CLODDS_CREDENTIAL_KEY) {
+  if (!process.env.RACHELBOT_CREDENTIAL_KEY) {
     const generated = randomBytes(32).toString('hex');
-    process.env.CLODDS_CREDENTIAL_KEY = generated;
+    process.env.RACHELBOT_CREDENTIAL_KEY = generated;
 
-    // Persist to ~/.clodds/.env so it survives restarts
-    const cloddsDir = join(homedir(), '.clodds');
-    const envPath = join(cloddsDir, '.env');
+    // Persist to ~/.rachelbot/.env so it survives restarts
+    const rachelbotDir = join(homedir(), '.rachelbot');
+    const envPath = join(rachelbotDir, '.env');
     try {
-      if (!existsSync(cloddsDir)) {
-        mkdirSync(cloddsDir, { recursive: true });
+      if (!existsSync(rachelbotDir)) {
+        mkdirSync(rachelbotDir, { recursive: true });
       }
       if (existsSync(envPath)) {
         // Append if file exists and doesn't already contain the key
         const existing = readFileSync(envPath, 'utf-8');
-        if (!existing.includes('CLODDS_CREDENTIAL_KEY=')) {
-          appendFileSync(envPath, `\nCLODDS_CREDENTIAL_KEY=${generated}\n`);
+        if (!existing.includes('RACHELBOT_CREDENTIAL_KEY=')) {
+          appendFileSync(envPath, `\nRACHELBOT_CREDENTIAL_KEY=${generated}\n`);
         }
       } else {
-        writeFileSync(envPath, `CLODDS_CREDENTIAL_KEY=${generated}\n`, { mode: 0o600 });
+        writeFileSync(envPath, `RACHELBOT_CREDENTIAL_KEY=${generated}\n`, { mode: 0o600 });
       }
-      logger.info('Auto-generated CLODDS_CREDENTIAL_KEY for credential encryption');
+      logger.info('Auto-generated RACHELBOT_CREDENTIAL_KEY for credential encryption');
     } catch (err) {
-      logger.warn({ err }, 'Could not persist CLODDS_CREDENTIAL_KEY to .env file — key is set for this session only');
+      logger.warn({ err }, 'Could not persist RACHELBOT_CREDENTIAL_KEY to .env file — key is set for this session only');
     }
   }
 
@@ -165,11 +165,11 @@ function validateStartupRequirements(): void {
 
   // Exit with errors if critical requirements missing
   if (errors.length > 0) {
-    logger.error('Clodds Startup Failed');
+    logger.error('RachelBot Startup Failed');
     for (const error of errors) {
       logger.error(error);
     }
-    logger.error('Run "clodds doctor" for full diagnostics.');
+    logger.error('Run "rachelbot doctor" for full diagnostics.');
     process.exit(1);
   }
 }
@@ -201,7 +201,7 @@ async function main() {
     const idxGateway = addStep('Starting HTTP gateway');
 
     // Print initial state
-    console.log('\n\x1b[1m🚀 Starting Clodds...\x1b[0m\n');
+    console.log('\n\x1b[1m🚀 Starting RachelBot...\x1b[0m\n');
     for (const step of startupSteps) {
       console.log(`  \x1b[90m○\x1b[0m ${step.name}`);
     }
@@ -270,7 +270,7 @@ async function main() {
     renderProgress();
 
     // Final success message
-    console.log('\n\x1b[32m\x1b[1m✓ Clodds is running!\x1b[0m');
+    console.log('\n\x1b[32m\x1b[1m✓ RachelBot is running!\x1b[0m');
     console.log(`\n  WebChat: \x1b[36mhttp://localhost:${config.gateway.port}/webchat\x1b[0m`);
     if (process.env.TELEGRAM_BOT_TOKEN) {
       console.log('  Telegram: \x1b[32mConnected\x1b[0m');
@@ -307,7 +307,7 @@ async function main() {
 
   } else {
     // Non-TTY mode: simple logging
-    logger.info('Starting Clodds...');
+    logger.info('Starting RachelBot...');
 
     validateStartupRequirements();
 
@@ -318,7 +318,7 @@ async function main() {
     const gateway = await createGateway(config);
     await gateway.start();
 
-    logger.info('Clodds is running!');
+    logger.info('RachelBot is running!');
 
     let shuttingDown = false;
     const SHUTDOWN_TIMEOUT_MS = 15000;

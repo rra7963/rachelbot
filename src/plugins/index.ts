@@ -21,8 +21,8 @@ import type { IncomingMessage, OutgoingMessage } from '../types';
 // CONSTANTS
 // =============================================================================
 
-const PLUGINS_DIR = join(homedir(), '.clodds', 'plugins');
-const PLUGIN_SETTINGS_FILE = join(homedir(), '.clodds', 'plugin-settings.json');
+const PLUGINS_DIR = join(homedir(), '.rachelbot', 'plugins');
+const PLUGIN_SETTINGS_FILE = join(homedir(), '.rachelbot', 'plugin-settings.json');
 
 // Ensure directories exist
 if (!existsSync(PLUGINS_DIR)) {
